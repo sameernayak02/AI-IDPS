@@ -1,0 +1,26 @@
+{
+    "headadmin": {
+        "password": "headadmin",
+        "role": "HeadAdmin"
+    },
+    "admin": {
+        "password": "admin",
+        "role": "Admin"
+    },
+    "analyst": {
+        "password": "analyst",
+        "role": "Analyst"
+    },
+    "Abhinav@2005": {
+        "password": "abhinav",
+        "role": "Admin",
+        "profile": {
+            "first_name": "Abhinav",
+            "last_name": "Lohbare",
+            "email": "abhinavlohbare2@gmail.com",
+            "mobile": "+919322122556",
+            "city": "Nagpur",
+            "country": "India"
+        }
+    }
+}

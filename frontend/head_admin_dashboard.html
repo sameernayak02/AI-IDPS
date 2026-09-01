@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Head Admin Dashboard | IDS System</title>
+    <!-- Use existing dashboard.css for base variables, or keep the embedded style -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #e8eaf0;
+            --text-muted: #6b7a99;
+        }
+
+        .dashboard-container {
+            max-width: 1000px;
+            width: 95%;
+            margin: auto;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding-top: 2rem;
+        }
+
+        .profile-section {
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .profile-image-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .profile-info h1 {
+            font-size: 1.75rem;
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-info .role {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .detail-value {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .edit-profile-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .edit-profile-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .action-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .action-card:hover .action-icon {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .action-card h2 {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-bottom: 0.75rem;
+        }
+
+        .action-card p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            color: #4ade80;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        .input-wrapper {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            .profile-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Dashboard Header with Logout -->
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; z-index: 20;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-shield-virus" style="color: var(--primary); font-size: 1.5rem;"></i>
+                <span style="color: var(--text-main); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.5px;">IDS <span style="color: var(--primary);">CORE</span></span>
+            </div>
+            <a href="#" id="logout-btn" class="edit-profile-btn" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </header>
+
+        <!-- Head Admin Profile Section -->
+        <section class="profile-section">
+            <div class="profile-image-container">
+                <img src="https://ui-avatars.com/api/?name=Head+Admin&background=2563eb&color=fff&size=128" alt="Profile" class="profile-image">
+            </div>
+            <div class="profile-info">
+                <span class="role">System Overseer</span>
+                <h1 id="header-fullname">Head Admin</h1>
+                <div class="profile-details" id="profileDetails">
+                    <div class="detail-item">
+                        <span class="detail-label">Full Name</span>
+                        <span class="detail-value" id="val-fullname">Alexander Vanguard</span>
+                        <input type="text" class="input-wrapper" id="edit-fullname" value="Alexander Vanguard" style="display: none; padding: 5px; margin-top: 5px;">
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">User ID (UID)</span>
+                        <span class="detail-value" id="val-uid">HA-8829-X</span>
+                        <input type="text" class="input-wrapper" id="edit-uid" value="HA-8829-X" style="display: none; padding: 5px; margin-top: 5px;">
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Phone Number</span>
+                        <span class="detail-value" id="val-phone">+1 (555) 948-2039</span>
+                        <input type="text" class="input-wrapper" id="edit-phone" value="+1 (555) 948-2039" style="display: none; padding: 5px; margin-top: 5px;">
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email Address</span>
+                        <span class="detail-value" id="val-email">a.vanguard@ids.security</span>
+                        <input type="email" class="input-wrapper" id="edit-email" value="a.vanguard@ids.security" style="display: none; padding: 5px; margin-top: 5px;">
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Date of Birth</span>
+                        <span class="detail-value" id="val-dob">March 14, 1985</span>
+                        <input type="text" class="input-wrapper" id="edit-dob" value="March 14, 1985" style="display: none; padding: 5px; margin-top: 5px;">
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Last Login</span>
+                        <span class="detail-value" id="val-lastlogin">Loading...</span>
+                    </div>
+                </div>
+                <button class="edit-profile-btn" id="editBtn" onclick="toggleEdit()">
+                    <i class="fas fa-edit"></i> <span id="btnText">Edit Information</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Navigation Actions -->
+        <div class="actions-grid">
+            <!-- Admin Registration Requests -->
+            <div class="action-card">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span id="pending-count">0</span> Pending
+                </div>
+                <div>
+                    <div class="action-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h2>Registration Requests</h2>
+                    <p>Review and approve pending administrative and analyst registration requests for system access.</p>
+                </div>
+                <a href="admin_request.html" class="action-btn btn-primary">Review Requests</a>
+            </div>
+
+            <!-- Live IP Blocking/Unblocking -->
+            <div class="action-card">
+                <div>
+                    <div class="action-icon">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <h2>IP Control Center</h2>
+                    <p>Manage real-time IP blacklisting and whitelisting. Block malicious actors or unblock trusted sources.</p>
+                </div>
+                <a href="ip_control.html" class="action-btn btn-outline">Manage IP Access</a>
+            </div>
+
+            <!-- Main Dashboard -->
+            <div class="action-card">
+                <div>
+                    <div class="action-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h2>Main Analytics</h2>
+                    <p>Access the core IDS monitoring dashboard with live traffic analysis and threat detection metrics.</p>
+                </div>
+                <a href="index.html" class="action-btn btn-outline">Go to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let token = sessionStorage.getItem('ids_access_token');
+
+        if (!token) {
+            window.location.href = 'index.html';
+        }
+
+        // Initialize dynamic data
+        async function init() {
+            // Set last login time
+            document.getElementById('val-lastlogin').textContent = new Date().toLocaleString();
+
+            // Fetch pending requests count
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/pending-requests-count`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('pending-count').textContent = data.count;
+                }
+            } catch (e) { console.error('Failed to fetch pending requests'); }
+
+            // Fetch profile data
+            try {
+                const res = await fetch(`${API_BASE}/api/head-admin/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    updateUIWithProfile(data);
+                }
+            } catch (e) { console.error('Failed to fetch profile'); }
+        }
+
+        function updateUIWithProfile(data) {
+            const fields = ['fullname', 'uid', 'phone', 'email', 'dob'];
+            fields.forEach(f => {
+                if (data[f]) {
+                    document.getElementById(`val-${f}`).textContent = data[f];
+                    document.getElementById(`edit-${f}`).value = data[f];
+                }
+            });
+            if (data.fullname) document.getElementById('header-fullname').textContent = data.fullname;
+        }
+
+        let isEditing = false;
+        const fields = ['fullname', 'uid', 'phone', 'email', 'dob'];
+
+        async function toggleEdit() {
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.querySelector('#editBtn i');
+            const editBtn = document.getElementById('editBtn');
+
+            if (isEditing) {
+                // Save Changes
+                const profileData = {};
+                fields.forEach(field => {
+                    const input = document.getElementById(`edit-${field}`);
+                    profileData[field] = input.value;
+                });
+
+                try {
+                    const res = await fetch(`${API_BASE}/api/head-admin/profile`, {
+                        method: 'POST',
+                        headers: { 
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(profileData)
+                    });
+                    if (res.ok) {
+                        fields.forEach(field => {
+                            const valSpan = document.getElementById(`val-${field}`);
+                            valSpan.textContent = profileData[field];
+                            valSpan.style.display = 'block';
+                            document.getElementById(`edit-${field}`).style.display = 'none';
+                        });
+                        document.getElementById('header-fullname').textContent = profileData.fullname;
+                        isEditing = false;
+                        btnText.textContent = 'Edit Information';
+                        btnIcon.className = 'fas fa-edit';
+                        editBtn.style.background = 'rgba(255, 255, 255, 0.05)';
+                    }
+                } catch (e) { alert('Failed to save profile'); }
+            } else {
+                // Switch to Edit Mode
+                fields.forEach(field => {
+                    document.getElementById(`val-${field}`).style.display = 'none';
+                    document.getElementById(`edit-${field}`).style.display = 'block';
+                });
+                isEditing = true;
+                btnText.textContent = 'Save Changes';
+                btnIcon.className = 'fas fa-save';
+                editBtn.style.background = 'var(--primary)';
+            }
+        }
+
+        document.getElementById('logout-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        });
+
+        // Robust block function for Head Admin
+        window.blockIp = async function(ip) {
+            if (!confirm(`Block IP: ${ip}?`)) return;
+            try {
+                const res = await fetch(`${API_BASE}/block-ip`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ ip })
+                });
+                if (res.ok) {
+                    alert(`IP ${ip} blocked successfully.`);
+                } else {
+                    const err = await res.json();
+                    alert(`Block failed: ${err.detail || 'Access denied'}`);
+                }
+            } catch (e) { alert('Block request failed'); }
+        };
+
+        init();
+    </script>
+</body>
+</html>

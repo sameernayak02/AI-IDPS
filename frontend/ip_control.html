@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Control Center | IDS System</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #e8eaf0;
+            --text-muted: #6b7a99;
+            --danger: #ef4444;
+            --success: #22c55e;
+        }
+
+        .control-container {
+            max-width: 1100px;
+            width: 95%;
+            margin: auto;
+            padding-top: 2rem;
+            z-index: 10;
+            animation: fadeIn 0.8s ease-out;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-main);
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .control-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .control-table th {
+            padding: 1rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .control-table td {
+            padding: 1rem;
+            color: var(--text-main);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            vertical-align: middle;
+        }
+
+        .badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-anomaly { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .badge-blocked { background: rgba(0, 0, 0, 0.3); color: #94a3b8; }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .btn-block:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+        }
+
+        .btn-unblock:hover {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="control-container">
+        <div class="header-actions">
+            <div>
+                <a href="#" id="back-link" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <h1 style="color: var(--text-main); margin-top: 0.5rem;">IP Control Center</h1>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="action-btn" onclick="init()"><i class="fas fa-sync-alt"></i> Refresh</button>
+            </div>
+        </div>
+
+        <!-- Detected Anomalies Section -->
+        <section class="section-card">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i> Detected Anomalies</h2>
+                <span id="anomaly-count" class="badge badge-anomaly">0 Potential Threats</span>
+            </div>
+            <table class="control-table" id="anomaly-table">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Threat Level</th>
+                        <th>Latest Activity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="anomaly-body">
+                    <!-- Dynamic -->
+                </tbody>
+            </table>
+            <div id="anomaly-empty" class="empty-state">No new anomalies detected.</div>
+        </section>
+
+        <!-- Blocked IPs Section -->
+        <section class="section-card">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-ban" style="color: var(--text-muted);"></i> Blocked Addresses</h2>
+                <span id="blocked-count" class="badge badge-blocked">0 Blocked IPs</span>
+            </div>
+            <table class="control-table" id="blocked-table">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="blocked-body">
+                    <!-- Dynamic -->
+                </tbody>
+            </table>
+            <div id="blocked-empty" class="empty-state">No IP addresses currently blocked.</div>
+        </section>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let token = sessionStorage.getItem('ids_access_token');
+        let role = sessionStorage.getItem('ids_user_role');
+
+        if (!token) {
+            window.location.href = 'index.html';
+        }
+
+        // Set back link based on role
+        const backLink = document.getElementById('back-link');
+        if (role === 'HeadAdmin') backLink.href = 'head_admin_dashboard.html';
+        else if (role === 'Admin') backLink.href = 'admin_dashboard.html';
+        else backLink.href = 'index.html';
+
+        async function init() {
+            const btn = document.querySelector('.header-actions button');
+            const icon = btn ? btn.querySelector('i') : null;
+            if (icon) icon.classList.add('fa-spin');
+            if (btn) btn.disabled = true;
+
+            try {
+                await Promise.all([fetchAnomalies(), fetchBlocked()]);
+            } catch (e) {
+                console.error(e);
+            } finally {
+                setTimeout(() => {
+                    if (icon) icon.classList.remove('fa-spin');
+                    if (btn) btn.disabled = false;
+                }, 400);
+            }
+        }
+
+        async function fetchAnomalies() {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/anomaly-ips`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    renderAnomalies(data);
+                }
+            } catch (e) { console.error('Failed to fetch anomalies'); }
+        }
+
+        async function fetchBlocked() {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/blocked-ips`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    renderBlocked(data);
+                }
+            } catch (e) { console.error('Failed to fetch blocked IPs'); }
+        }
+
+        function renderAnomalies(ips) {
+            const body = document.getElementById('anomaly-body');
+            const empty = document.getElementById('anomaly-empty');
+            const count = document.getElementById('anomaly-count');
+            
+            body.innerHTML = '';
+            count.textContent = `${ips.length} Potential Threats`;
+
+            if (ips.length === 0) {
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+             ips.forEach(item => {
+                 const tr = document.createElement('tr');
+                 tr.innerHTML = `
+                     <td style="font-family: monospace; font-weight: 600;">${item.ip}</td>
+                     <td><span class="badge badge-anomaly">Critical</span></td>
+                     <td style="font-size: 0.85rem; color: var(--text-muted);">${new Date(typeof item.timestamp === 'number' ? item.timestamp * 1000 : (item.timestamp || item.last_seen)).toLocaleString()}</td>
+                     <td><button class="action-btn btn-block" onclick="processIP('${item.ip}', 'block')">Block IP</button></td>
+                 `;
+                body.appendChild(tr);
+            });
+        }
+
+        function renderBlocked(ips) {
+            const body = document.getElementById('blocked-body');
+            const empty = document.getElementById('blocked-empty');
+            const count = document.getElementById('blocked-count');
+            
+            body.innerHTML = '';
+            count.textContent = `${ips.length} Blocked IPs`;
+
+            if (ips.length === 0) {
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            ips.forEach(ip => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-family: monospace; font-weight: 600;">${ip}</td>
+                    <td><span class="badge badge-blocked">Denied</span></td>
+                    <td><button class="action-btn btn-unblock" onclick="processIP('${ip}', 'unblock')">Unblock IP</button></td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        async function processIP(ip, action) {
+            try {
+                const res = await fetch(`${API_BASE}/${action}-ip`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ ip })
+                });
+                if (res.ok) {
+                    init();
+                } else {
+                    const err = await res.json();
+                    alert(`Error: ${err.detail || 'Unknown error'}`);
+                }
+            } catch (e) { alert(`Failed to ${action} IP`); }
+        }
+
+        init();
+    </script>
+</body>
+</html>

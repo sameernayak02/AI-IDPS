@@ -1,0 +1,357 @@
+/* ============================================================
+   AI IDS Dashboard — Premium Dark Theme + Glassmorphism
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ---------- CSS Tokens ---------- */
+:root {
+    --bg-primary:   #010409;
+    --bg-card:      #020813;
+    --bg-card-hover:#040e21;
+    --border:       rgba(255,255,255,0.05);
+    --border-glow:  rgba(0,212,255,0.4);
+    --accent:       #00d4ff;
+    --accent-dim:   rgba(0,212,255,0.15);
+    --accent-red:   #ff4757;
+    --accent-green: #2ed573;
+    --accent-amber: #ffa502;
+    --text-primary: #e8eaf0;
+    --text-muted:   #6b7a99;
+    --font-sans:    'Inter', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+    --radius:       14px;
+    --radius-sm:    8px;
+    --shadow-card:  0 8px 32px rgba(0,0,0,0.5);
+    --shadow-glow:  0 0 20px rgba(0,212,255,0.25);
+    --transition:   all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ---------- Base Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,212,255,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(120,40,200,0.04) 0%, transparent 60%);
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ============================================================
+   GLASSMORPHISM SEARCH BARS
+   ============================================================ */
+.search-bar {
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 24px;
+    padding: 10px 20px;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    width: 100%;
+    transition: var(--transition);
+    outline: none;
+}
+
+.search-bar::placeholder {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+.search-bar:focus {
+    border-color: rgba(0,212,255,0.5);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.12), 0 0 20px rgba(0,212,255,0.2);
+    background: rgba(255,255,255,0.10);
+}
+
+.search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-wrap .search-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-muted);
+    pointer-events: none;
+    font-size: 14px;
+}
+
+.search-wrap .search-bar {
+    padding-left: 38px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+    backdrop-filter: blur(8px);
+}
+
+.card:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(255,255,255,0.14);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+
+/* ---------- Network Monitor Card ---------- */
+.network-monitor {
+    background: rgba(0,212,255,0.03);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 20px 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+.network-monitor h3 {
+    color: var(--accent);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+}
+
+.device-log {
+    list-style: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+}
+
+.device-log li {
+    background: rgba(0,212,255,0.05);
+    border-left: 3px solid var(--accent);
+    padding: 8px 14px;
+    margin-bottom: 6px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    color: var(--accent);
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.device-log li:hover {
+    background: rgba(0,212,255,0.10);
+}
+
+.device-item {
+    background: rgba(0,212,255,0.05);
+    padding: 10px 14px;
+    margin-bottom: 5px;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+}
+
+/* ---------- Scan Button ---------- */
+.btn-scan {
+    background: linear-gradient(135deg, var(--accent) 0%, #0099bb 100%);
+    color: #000;
+    border: none;
+    border-radius: 24px;
+    padding: 9px 24px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 14px;
+    transition: var(--transition);
+    box-shadow: 0 4px 16px rgba(0,212,255,0.3);
+}
+
+.btn-scan:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,212,255,0.5);
+}
+
+.btn-scan:active {
+    transform: translateY(0);
+}
+
+/* ---------- Legacy device-container (kept for compat) ---------- */
+.device-container {
+    background: rgba(0,212,255,0.03);
+    padding: 15px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    margin-top: 10px;
+}
+
+.network-status, .network-section {
+    display: none; /* Hide duplicate sections from old HTML */
+}
+
+/* ---------- Alert Badges ---------- */
+.severity-critical { background: rgba(255,71,87,0.2); color: #ff4757; border: 1px solid rgba(255,71,87,0.4); }
+.severity-high     { background: rgba(255,165,2,0.2);  color: #ffa502; border: 1px solid rgba(255,165,2,0.4); }
+.severity-medium   { background: rgba(255,212,0,0.15); color: #ffd200; border: 1px solid rgba(255,212,0,0.3); }
+.severity-low      { background: rgba(46,213,115,0.15);color: #2ed573; border: 1px solid rgba(46,213,115,0.3); }
+
+.severity-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ---------- Table ---------- */
+.ids-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+.ids-table thead tr {
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--border);
+}
+
+.ids-table th {
+    padding: 12px 16px;
+    text-align: left;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.ids-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-primary);
+}
+
+.ids-table tbody tr {
+    transition: background 0.15s ease;
+}
+
+.ids-table tbody tr:hover {
+    background: rgba(255,255,255,0.03);
+}
+
+.ids-table tbody tr.row-anomaly {
+    border-left: 3px solid var(--accent-red);
+}
+
+.ids-table tbody tr.row-normal {
+    border-left: 3px solid transparent;
+}
+
+/* ---------- Block IP Button ---------- */
+.btn-block {
+    background: rgba(255,71,87,0.15);
+    color: var(--accent-red);
+    border: 1px solid rgba(255,71,87,0.3);
+    border-radius: var(--radius-sm);
+    padding: 4px 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: var(--transition);
+}
+
+.btn-block:hover {
+    background: rgba(255,71,87,0.35);
+    box-shadow: 0 0 12px rgba(255,71,87,0.3);
+}
+
+/* ---------- Pulsing Status Dot ---------- */
+@keyframes pulse-dot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%       { transform: scale(1.4); opacity: 0.6; }
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse-dot 2s ease-in-out infinite;
+    box-shadow: 0 0 8px var(--accent-green);
+}
+
+/* ---------- Map container ---------- */
+#threat-map {
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+}
+
+/* ---------- Custom Leaflet Popup ---------- */
+.leaflet-popup-content-wrapper {
+    background: rgba(10,14,28,0.95) !important;
+    border: 1px solid var(--border-glow) !important;
+    color: var(--text-primary) !important;
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-sm) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
+}
+
+.leaflet-popup-tip {
+    background: rgba(10,14,28,0.95) !important;
+}
+
+/* ---------- Login Form Override ---------- */
+#login-form {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid var(--border) !important;
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius) !important;
+}
+
+/* ---------- Search bar bottom row ---------- */
+.log-search-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.log-search-row .search-wrap {
+    flex: 1;
+}
+
+/* ---------- Threat level badge in table ---------- */
+.threat-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.threat-high   { background: rgba(255,71,87,0.2);  color: #ff4757; }
+.threat-medium { background: rgba(255,165,2,0.2);  color: #ffa502; }
+.threat-low    { background: rgba(46,213,115,0.15);color: #2ed573; }

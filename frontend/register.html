@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | AI-Powered IDS</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .register-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        #register-form {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="bg-[#010409] text-white font-sans min-h-screen">
+
+    <div class="register-container">
+        <form id="register-form" class="p-8 shadow-2xl w-96" autocomplete="off">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue-900 bg-opacity-40 border border-blue-500 border-opacity-30 mb-4">
+                    <svg id="role-icon" class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"/>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-blue-400">Join as <span id="role-name">User</span></h1>
+                <p class="text-gray-500 text-sm mt-1">Create your secure access credentials</p>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-400 mb-2 text-xs uppercase tracking-widest font-semibold">Username</label>
+                <div class="search-wrap">
+                    <span class="search-icon">👤</span>
+                    <input type="text" id="username" class="search-bar" placeholder="Choose a username" required>
+                </div>
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-400 mb-2 text-xs uppercase tracking-widest font-semibold">Password</label>
+                <div class="search-wrap">
+                    <span class="search-icon">🔑</span>
+                    <input type="password" id="password" class="search-bar" placeholder="Choose a password" required>
+                </div>
+            </div>
+
+            <div class="flex justify-center">
+                <button type="submit" id="register-btn"
+                    class="px-10 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-bold py-2.5 rounded-2xl transition duration-300 shadow-lg hover:shadow-cyan-500/25">
+                    Register Now →
+                </button>
+            </div>
+            
+            <p id="register-error" class="text-red-400 mt-4 text-sm hidden text-center font-medium"></p>
+            <p id="register-success" class="text-green-400 mt-4 text-sm hidden text-center font-medium"></p>
+
+            <div class="mt-8 pt-6 border-t border-gray-800 text-center">
+                <a href="registration-portal.html" class="inline-block text-gray-500 hover:text-white text-sm transition">
+                    ← Change Role
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script src="js/register.js"></script>
+</body>
+</html>

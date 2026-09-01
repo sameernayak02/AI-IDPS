@@ -1,0 +1,44 @@
+{
+    "SN123456": {
+        "username": "SN123456",
+        "password": "SN123456",
+        "role": "Admin",
+        "first_name": "Sameer",
+        "middle_name": "",
+        "last_name": "Nayak",
+        "email": "sameer245nayak@gmail.com",
+        "mobile": "1234567890",
+        "dob": "12/10/2112",
+        "country": "India",
+        "state": "Delhi",
+        "city": "Delhi"
+    },
+    "admin_test": {
+        "username": "admin_test",
+        "password": "admin123",
+        "role": "Admin",
+        "first_name": "Admin",
+        "middle_name": "",
+        "last_name": "Test",
+        "email": "admin@test.com",
+        "mobile": "9876543210",
+        "dob": "01/01/1990",
+        "country": "India",
+        "state": "Delhi",
+        "city": "New Delhi"
+    },
+    "analyst_test": {
+        "username": "analyst_test",
+        "password": "password123",
+        "role": "Analyst",
+        "first_name": "Test",
+        "middle_name": "",
+        "last_name": "Analyst",
+        "email": "analyst@test.com",
+        "mobile": "+919876543211",
+        "dob": "01/01/1990",
+        "country": "India",
+        "state": "Delhi",
+        "city": "New Delhi"
+    }
+}

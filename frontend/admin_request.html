@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration Requests | IDS System</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #e8eaf0;
+            --text-muted: #6b7a99;
+        }
+
+        .requests-container {
+            max-width: 1000px;
+            width: 95%;
+            margin: auto;
+            padding-top: 2rem;
+            z-index: 10;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .requests-card {
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .requests-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .requests-table th {
+            padding: 1rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .requests-table td {
+            padding: 1.25rem 1rem;
+            color: var(--text-main);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            vertical-align: middle;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .approve-btn:hover {
+            background: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            border-color: #4ade80;
+        }
+
+        .reject-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border-color: #f87171;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            display: none;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.3;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="requests-container">
+        <div class="header-actions">
+            <div>
+                <a href="head_admin_dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <h1 style="color: var(--text-main); margin-top: 0.5rem;">Registration Requests</h1>
+            </div>
+            <div id="pending-badge" class="status-badge status-pending" style="font-size: 0.8rem; padding: 0.5rem 1rem;">
+                0 Pending Requests
+            </div>
+        </div>
+
+        <div class="requests-card">
+            <table class="requests-table" id="requests-table">
+                <thead>
+                    <tr>
+                        <th>User Details</th>
+                        <th>Requested Role</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="requests-body">
+                    <!-- Dynamic Rows -->
+                </tbody>
+            </table>
+            <div id="empty-state" class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <h3>No pending requests</h3>
+                <p>All registration requests have been processed.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let token = sessionStorage.getItem('ids_access_token');
+
+        if (!token) {
+            window.location.href = 'index.html';
+        }
+
+        async function fetchRequests() {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/pending-requests`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const requests = await res.json();
+                    renderRequests(requests);
+                }
+            } catch (e) { console.error('Failed to fetch requests'); }
+        }
+
+        function renderRequests(requests) {
+            const body = document.getElementById('requests-body');
+            const table = document.getElementById('requests-table');
+            const empty = document.getElementById('empty-state');
+            const badge = document.getElementById('pending-badge');
+
+            body.innerHTML = '';
+            const reqList = Object.entries(requests);
+            
+            badge.textContent = `${reqList.length} Pending Requests`;
+
+            if (reqList.length === 0) {
+                table.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            table.style.display = 'table';
+            empty.style.display = 'none';
+
+            reqList.forEach(([username, data]) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div class="user-info">
+                            <div class="user-avatar">${username[0].toUpperCase()}</div>
+                            <div>
+                                <div style="font-weight: 600;">${username}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">${data.email || 'N/A'}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span style="font-size: 0.85rem; font-weight: 500;">${data.role || 'Analyst'}</span>
+                    </td>
+                    <td>
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">${data.city || ''}, ${data.country || 'Unknown'}</span>
+                    </td>
+                    <td>
+                        <span class="status-badge status-pending">Pending</span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn approve-btn" onclick="processRequest('${username}', 'approve')" title="Approve">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="action-btn reject-btn" onclick="processRequest('${username}', 'reject')" title="Reject">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        async function processRequest(username, action) {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/${action}-request/${username}`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    fetchRequests();
+                } else {
+                    const err = await res.json();
+                    alert(`Error: ${err.detail}`);
+                }
+            } catch (e) { alert(`Failed to ${action} request`); }
+        }
+
+        fetchRequests();
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+    "Abhinav@2005": {
+        "fullname": "Abhinav Lohbare",
+        "uid": "ADMIN-Abhinav@2005",
+        "phone": "+91 9322122556",
+        "email": "Abhinav@2005@ids.security",
+        "dob": "April 07, 2026"
+    },
+    "admin": {
+        "fullname": "Sameer Nayak",
+        "uid": "ADMIN-admin",
+        "phone": "9876543210",
+        "email": "admin@ids.security",
+        "dob": "January 01, 1990"
+    }
+}
