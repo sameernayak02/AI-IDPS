@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account | AI-Powered IDS</title>
     <link rel="stylesheet" href="css/dashboard.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .register-container {
@@ -18,13 +20,44 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
+            position: relative;
+        }
+        .top-login-link {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(37, 99, 235, 0.1) !important;
+            border: 1px solid rgba(37, 99, 235, 0.25) !important;
+            color: #60a5fa !important;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            text-decoration: none;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+        .top-login-link:hover {
+            background: rgba(37, 99, 235, 0.22) !important;
+            border-color: rgba(37, 99, 235, 0.5) !important;
+            color: #93c5fd !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
         }
     </style>
 </head>
 <body class="bg-[#010409] text-white font-sans min-h-screen">
 
     <div class="register-container">
-        <form id="register-form" class="p-8 shadow-2xl w-96" autocomplete="off">
+        <form id="register-form" class="p-8 shadow-2xl w-96 relative" autocomplete="off">
+            <a href="index.html" class="top-login-link">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue-900 bg-opacity-40 border border-blue-500 border-opacity-30 mb-4">
                     <svg id="role-icon" class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,7 +85,7 @@
 
             <div class="flex justify-center">
                 <button type="submit" id="register-btn"
-                    class="px-10 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-bold py-2.5 rounded-2xl transition duration-300 shadow-lg hover:shadow-cyan-500/25">
+                    class="px-14 bg-transparent border-2 border-[#2563eb] hover:border-transparent text-[#2563eb] hover:text-white font-bold py-3 rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-blue-500/25 text-base sm:text-lg mt-2 hover:bg-[#2563eb]">
                     Register Now →
                 </button>
             </div>
@@ -60,9 +93,12 @@
             <p id="register-error" class="text-red-400 mt-4 text-sm hidden text-center font-medium"></p>
             <p id="register-success" class="text-green-400 mt-4 text-sm hidden text-center font-medium"></p>
 
-            <div class="mt-8 pt-6 border-t border-gray-800 text-center">
+            <div class="mt-8 pt-6 border-t border-gray-800 text-center flex items-center justify-between">
                 <a href="registration-portal.html" class="inline-block text-gray-500 hover:text-white text-sm transition">
                     ← Change Role
+                </a>
+                <a href="index.html" class="top-login-link" style="position: static; display: inline-flex;">
+                    <i class="fas fa-sign-in-alt"></i> Login
                 </a>
             </div>
         </form>

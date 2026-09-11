@@ -40,7 +40,10 @@ async def handle_honeypot_connection(reader, writer, connection_manager):
         "data": {
             "message": f"Critical: Honeypot decoy SSH port accessed by {ip}!",
             "severity": "Critical",
-            "timestamp": timestamp
+            "timestamp": timestamp,
+            "source": ip,
+            "threat_level": 1.0,
+            "reasons": ["Honeypot Decoy Breach", "Unauthorized Service Probing"]
         }
     })
 

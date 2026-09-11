@@ -23,6 +23,34 @@
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .top-login-link {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(37, 99, 235, 0.1) !important;
+            border: 1px solid rgba(37, 99, 235, 0.25) !important;
+            color: #60a5fa !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+        .top-login-link:hover {
+            background: rgba(37, 99, 235, 0.22) !important;
+            border-color: rgba(37, 99, 235, 0.5) !important;
+            color: #93c5fd !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
         }
         .login-header {
             text-align: center;
@@ -30,7 +58,7 @@
         }
         .login-header h1 {
             font-size: 2.5rem;
-            color: #00d4ff;
+            color: #2563eb;
             margin-bottom: 10px;
             font-weight: 700;
         }
@@ -55,14 +83,14 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .role-card:hover {
-            background: rgba(0, 212, 255, 0.06);
-            border-color: rgba(0, 212, 255, 0.3);
+            background: rgba(37, 99, 235, 0.08);
+            border-color: rgba(37, 99, 235, 0.4);
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 212, 255, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(37, 99, 235, 0.25);
         }
         .role-icon {
             font-size: 2.5rem;
-            color: #00d4ff;
+            color: #2563eb;
             margin-bottom: 20px;
         }
         .role-card h2 {
@@ -87,7 +115,7 @@
             transition: color 0.2s;
         }
         .forgot-link:hover {
-            color: #00d4ff;
+            color: #3b82f6;
         }
         .forgot-link i {
             margin-right: 8px;
@@ -126,7 +154,9 @@
             </div>
 
             <div class="portal-footer">
-                <a href="index.html" class="forgot-link"><i class="fas fa-arrow-left"></i> Back to Login</a>
+                <a href="index.html" class="top-login-link" style="position: static; display: inline-flex;">
+                    <i class="fas fa-sign-in-alt"></i> Back to Login
+                </a>
             </div>
         </div>
     </div>

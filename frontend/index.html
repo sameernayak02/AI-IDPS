@@ -9,10 +9,13 @@
     <link rel="icon" href="data:,">
 
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://a.tile.openstreetmap.org https://b.tile.openstreetmap.org https://c.tile.openstreetmap.org https://unpkg.com https://*.google.com https://*.gstatic.com; connect-src 'self' http://localhost:8000 http://127.0.0.1:8000 ws://localhost:8000 ws://127.0.0.1:8000 http://ip-api.com;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://a.tile.openstreetmap.org https://b.tile.openstreetmap.org https://c.tile.openstreetmap.org https://unpkg.com https://*.google.com https://*.gstatic.com; connect-src 'self' http://localhost:8000 http://127.0.0.1:8000 ws://localhost:8000 ws://127.0.0.1:8000 http://ip-api.com;">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -59,49 +62,49 @@
                                 <feComposite in="SourceGraphic" in2="blur" operator="over"/>
                             </filter>
                             <linearGradient id="loginShieldGrad" x1="60" y1="10" x2="60" y2="88" gradientUnits="userSpaceOnUse">
-                                <stop offset="0%" stop-color="#0284c7" stop-opacity="0.25"/>
-                                <stop offset="100%" stop-color="#0369a1" stop-opacity="0.05"/>
+                                <stop offset="0%" stop-color="#2563eb" stop-opacity="0.25"/>
+                                <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.05"/>
                             </linearGradient>
                         </defs>
 
                         <!-- Left Circuit Lines -->
-                        <g stroke="#00b4d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <g stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M35 34 H18 V26"/>
-                            <circle cx="18" cy="26" r="2.8" fill="#00b4d8" stroke="none"/>
+                            <circle cx="18" cy="26" r="2.8" fill="#2563eb" stroke="none"/>
                             <path d="M30 50 H10"/>
-                            <circle cx="10" cy="50" r="2.8" fill="#00b4d8" stroke="none"/>
+                            <circle cx="10" cy="50" r="2.8" fill="#2563eb" stroke="none"/>
                             <path d="M35 66 H18 V74"/>
-                            <circle cx="18" cy="74" r="2.8" fill="#00b4d8" stroke="none"/>
-                            <circle cx="28" cy="42" r="1.5" fill="#38bdf8" stroke="none"/>
-                            <circle cx="28" cy="58" r="1.5" fill="#38bdf8" stroke="none"/>
+                            <circle cx="18" cy="74" r="2.8" fill="#2563eb" stroke="none"/>
+                            <circle cx="28" cy="42" r="1.5" fill="#60a5fa" stroke="none"/>
+                            <circle cx="28" cy="58" r="1.5" fill="#60a5fa" stroke="none"/>
                         </g>
 
                         <!-- Right Circuit Lines -->
-                        <g stroke="#00b4d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <g stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M85 34 H102 V26"/>
-                            <circle cx="102" cy="26" r="2.8" fill="#00b4d8" stroke="none"/>
+                            <circle cx="102" cy="26" r="2.8" fill="#2563eb" stroke="none"/>
                             <path d="M90 50 H110"/>
-                            <circle cx="110" cy="50" r="2.8" fill="#00b4d8" stroke="none"/>
+                            <circle cx="110" cy="50" r="2.8" fill="#2563eb" stroke="none"/>
                             <path d="M85 66 H102 V74"/>
-                            <circle cx="102" cy="74" r="2.8" fill="#00b4d8" stroke="none"/>
-                            <circle cx="92" cy="42" r="1.5" fill="#38bdf8" stroke="none"/>
-                            <circle cx="92" cy="58" r="1.5" fill="#38bdf8" stroke="none"/>
+                            <circle cx="102" cy="74" r="2.8" fill="#2563eb" stroke="none"/>
+                            <circle cx="92" cy="42" r="1.5" fill="#60a5fa" stroke="none"/>
+                            <circle cx="92" cy="58" r="1.5" fill="#60a5fa" stroke="none"/>
                         </g>
 
                         <!-- Outer Shield Layer -->
                         <path d="M60 12 L90 25 C90 58 60 88 60 88 C60 88 30 58 30 25 L60 12 Z" 
-                              stroke="#00b4d8" stroke-width="3" stroke-linejoin="round" fill="url(#loginShieldGrad)" filter="url(#loginCyanGlow)"/>
+                              stroke="#2563eb" stroke-width="3" stroke-linejoin="round" fill="url(#loginShieldGrad)" filter="url(#loginCyanGlow)"/>
 
                         <!-- Inner Shield Border -->
                         <path d="M60 20 L83 29.5 C83 55 60 79 60 79 C60 79 37 55 37 29.5 L60 20 Z" 
-                              stroke="#0284c7" stroke-width="1.5" stroke-dasharray="4 2" fill="none" opacity="0.8"/>
+                              stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4 2" fill="none" opacity="0.8"/>
 
                         <!-- Padlock Shackle -->
                         <path d="M52 45 V37 C52 32.58 55.58 29 60 29 C64.42 29 68 32.58 68 37 V45" 
-                              stroke="#38bdf8" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+                              stroke="#60a5fa" stroke-width="3.2" stroke-linecap="round" fill="none"/>
 
                         <!-- Padlock Body -->
-                        <rect x="47" y="44" width="26" height="20" rx="4" fill="#00b4d8" stroke="#7dd3fc" stroke-width="1.5"/>
+                        <rect x="47" y="44" width="26" height="20" rx="4" fill="#2563eb" stroke="#93c5fd" stroke-width="1.5"/>
 
                         <!-- Padlock Keyhole -->
                         <circle cx="60" cy="52" r="2.5" fill="#060c18"/>
@@ -112,10 +115,10 @@
                 <!-- Headline Text -->
                 <div class="text-left">
                     <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight leading-tight">
-                        <span class="text-[#00b4d8]">AI-Powered</span> <span class="text-white">Intrusion Detection</span>
+                        <span class="text-[#2563eb]">AI-Powered</span> <span class="text-white">Intrusion Detection</span>
                         <span class="block text-white">&amp; Prevention System</span>
                     </h1>
-                    <div class="w-full max-w-[250px] h-[2px] bg-gradient-to-r from-[#00b4d8] to-transparent mt-2.5 mb-2.5 opacity-90 rounded-full"></div>
+                    <div class="w-full max-w-[250px] h-[2px] bg-gradient-to-r from-[#2563eb] to-transparent mt-2.5 mb-2.5 opacity-90 rounded-full"></div>
                     <p class="text-[#6b7a99] text-xs sm:text-sm font-normal tracking-wide">Real-Time Network Traffic &amp; Threat Analysis</p>
                 </div>
             </div>
@@ -136,7 +139,7 @@
             </div>
             <div class="flex justify-center">
                 <button type="submit" id="login-btn"
-                    class="px-14 bg-transparent border-2 border-[#00b4d8] hover:border-transparent text-[#00b4d8] hover:text-white font-bold py-3 rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-cyan-500/25 text-base sm:text-lg mt-2 hover:bg-gradient-to-r hover:from-blue-600 hover:to-cyan-600">
+                    class="px-14 bg-transparent border-2 border-[#2563eb] hover:border-transparent text-[#2563eb] hover:text-white font-bold py-3 rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-blue-500/25 text-base sm:text-lg mt-2 hover:bg-[#2563eb]">
                     Authenticate →
                 </button>
             </div>
@@ -160,7 +163,7 @@
         <!-- Header -->
         <header class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8 p-6 md:p-8 rounded-2xl bg-[#020813] border border-white/5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative overflow-hidden">
             <!-- Subtle glow background details to make it feel extremely premium -->
-            <div class="absolute -left-10 -top-10 w-40 h-40 rounded-full bg-cyan-500/5 blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-10 -top-10 w-40 h-40 rounded-full bg-blue-500/5 blur-3xl pointer-events-none"></div>
             <div class="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-blue-500/5 blur-3xl pointer-events-none"></div>
 
             <div class="flex items-center gap-5 sm:gap-6 z-10">
@@ -173,49 +176,49 @@
                                 <feComposite in="SourceGraphic" in2="blur" operator="over"/>
                             </filter>
                             <linearGradient id="shieldGrad" x1="60" y1="10" x2="60" y2="88" gradientUnits="userSpaceOnUse">
-                                <stop offset="0%" stop-color="#0284c7" stop-opacity="0.25"/>
-                                <stop offset="100%" stop-color="#0369a1" stop-opacity="0.05"/>
+                                <stop offset="0%" stop-color="#2563eb" stop-opacity="0.25"/>
+                                <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.05"/>
                             </linearGradient>
                         </defs>
 
                         <!-- Left Circuit Lines -->
-                        <g stroke="#00b4d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <g stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M35 34 H18 V26"/>
-                            <circle cx="18" cy="26" r="2.8" fill="#00b4d8" stroke="none"/>
+                            <circle cx="18" cy="26" r="2.8" fill="#2563eb" stroke="none"/>
                             <path d="M30 50 H10"/>
-                            <circle cx="10" cy="50" r="2.8" fill="#00b4d8" stroke="none"/>
+                            <circle cx="10" cy="50" r="2.8" fill="#2563eb" stroke="none"/>
                             <path d="M35 66 H18 V74"/>
-                            <circle cx="18" cy="74" r="2.8" fill="#00b4d8" stroke="none"/>
-                            <circle cx="28" cy="42" r="1.5" fill="#38bdf8" stroke="none"/>
-                            <circle cx="28" cy="58" r="1.5" fill="#38bdf8" stroke="none"/>
+                            <circle cx="18" cy="74" r="2.8" fill="#2563eb" stroke="none"/>
+                            <circle cx="28" cy="42" r="1.5" fill="#60a5fa" stroke="none"/>
+                            <circle cx="28" cy="58" r="1.5" fill="#60a5fa" stroke="none"/>
                         </g>
 
                         <!-- Right Circuit Lines -->
-                        <g stroke="#00b4d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <g stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M85 34 H102 V26"/>
-                            <circle cx="102" cy="26" r="2.8" fill="#00b4d8" stroke="none"/>
+                            <circle cx="102" cy="26" r="2.8" fill="#2563eb" stroke="none"/>
                             <path d="M90 50 H110"/>
-                            <circle cx="110" cy="50" r="2.8" fill="#00b4d8" stroke="none"/>
+                            <circle cx="110" cy="50" r="2.8" fill="#2563eb" stroke="none"/>
                             <path d="M85 66 H102 V74"/>
-                            <circle cx="102" cy="74" r="2.8" fill="#00b4d8" stroke="none"/>
-                            <circle cx="92" cy="42" r="1.5" fill="#38bdf8" stroke="none"/>
-                            <circle cx="92" cy="58" r="1.5" fill="#38bdf8" stroke="none"/>
+                            <circle cx="102" cy="74" r="2.8" fill="#2563eb" stroke="none"/>
+                            <circle cx="92" cy="42" r="1.5" fill="#60a5fa" stroke="none"/>
+                            <circle cx="92" cy="58" r="1.5" fill="#60a5fa" stroke="none"/>
                         </g>
 
                         <!-- Outer Shield Layer -->
                         <path d="M60 12 L90 25 C90 58 60 88 60 88 C60 88 30 58 30 25 L60 12 Z" 
-                              stroke="#00b4d8" stroke-width="3" stroke-linejoin="round" fill="url(#shieldGrad)" filter="url(#cyanGlow)"/>
+                              stroke="#2563eb" stroke-width="3" stroke-linejoin="round" fill="url(#shieldGrad)" filter="url(#cyanGlow)"/>
 
                         <!-- Inner Shield Border -->
                         <path d="M60 20 L83 29.5 C83 55 60 79 60 79 C60 79 37 55 37 29.5 L60 20 Z" 
-                              stroke="#0284c7" stroke-width="1.5" stroke-dasharray="4 2" fill="none" opacity="0.8"/>
+                              stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4 2" fill="none" opacity="0.8"/>
 
                         <!-- Padlock Shackle -->
                         <path d="M52 45 V37 C52 32.58 55.58 29 60 29 C64.42 29 68 32.58 68 37 V45" 
-                              stroke="#38bdf8" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+                              stroke="#60a5fa" stroke-width="3.2" stroke-linecap="round" fill="none"/>
 
                         <!-- Padlock Body -->
-                        <rect x="47" y="44" width="26" height="20" rx="4" fill="#00b4d8" stroke="#7dd3fc" stroke-width="1.5"/>
+                        <rect x="47" y="44" width="26" height="20" rx="4" fill="#2563eb" stroke="#93c5fd" stroke-width="1.5"/>
 
                         <!-- Padlock Keyhole -->
                         <circle cx="60" cy="52" r="2.5" fill="#060c18"/>
@@ -225,18 +228,20 @@
 
                 <!-- Headline Text -->
                 <div>
-                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
-                        <span class="text-[#00b4d8]">AI-Powered</span> <span class="text-white">Intrusion Detection</span>
-                        <span class="block text-white">&amp; Prevention System</span>
+                    <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
+                        <span class="block whitespace-nowrap">
+                            <span class="text-[#2563eb]">AI-Powered</span> <span class="text-white">Intrusion Detection</span>
+                        </span>
+                        <span class="block text-white whitespace-nowrap">&amp; Prevention System</span>
                     </h1>
-                    <div class="w-[320px] sm:w-[380px] lg:w-[450px] h-[2px] bg-gradient-to-r from-[#00b4d8] to-transparent mt-3.5 mb-4 opacity-90 rounded-full"></div>
+                    <div class="w-[320px] sm:w-[380px] lg:w-[450px] h-[2px] bg-gradient-to-r from-[#2563eb] to-transparent mt-3.5 mb-4 opacity-90 rounded-full"></div>
                     <p class="text-slate-400 text-sm lg:text-base font-normal tracking-wide">Real-Time Network Traffic &amp; Threat Analysis</p>
                 </div>
             </div>
 
             <!-- Top Search Bar & Actions -->
-            <div class="flex flex-wrap items-center mt-4 lg:mt-0 gap-4 w-full lg:w-auto z-10">
-                <div class="search-wrap flex-1 sm:flex-initial sm:w-64">
+            <div class="flex flex-nowrap items-center mt-4 lg:mt-0 gap-3 w-full sm:w-auto z-10 shrink-0">
+                <div class="search-wrap flex-1 sm:flex-initial sm:w-56 md:w-64 min-w-[150px]">
                     <span class="search-icon">🔍</span>
                     <input type="text" id="top-search-bar" class="search-bar"
                         placeholder="Search threats, IPs, protocols…"
@@ -244,20 +249,21 @@
                 </div>
 
                 <span id="system-status"
-                    class="flex items-center text-green-400 font-semibold bg-green-500/10 border border-green-500/20 px-3 py-1.5 rounded-2xl text-sm whitespace-nowrap shadow-[0_0_15px_rgba(34,197,94,0.1)]">
+                    class="flex-shrink-0 flex items-center text-green-400 font-semibold bg-green-500/10 border border-green-500/20 px-3 py-1.5 rounded-2xl text-sm whitespace-nowrap shadow-[0_0_15px_rgba(34,197,94,0.1)]">
                     <span class="status-dot"></span> Sniffing Live
                 </span>
 
-                <button id="logout-btn"
-                    class="text-gray-400 hover:text-white transition-all text-sm border border-gray-700 hover:border-gray-500 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl font-medium">
-                    Logout
-                </button>
+                <a href="#" id="logout-btn" class="edit-profile-btn flex-shrink-0 whitespace-nowrap" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171; white-space: nowrap;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
             </div>
         </header>
 
         <!-- Network Device Scanner -->
-        <div class="network-monitor mb-6">
-            <h3>⚡ Network Device Tracker</h3>
+        <div class="card mb-6">
+            <h2 class="text-lg font-bold mb-4 text-gray-300 flex items-center gap-2">
+                <span class="text-blue-400">⚡</span> Network Device Tracker
+            </h2>
             <p class="text-gray-400 text-sm mb-3">Live ARP scan of connected devices on your LAN:</p>
             <ul id="device-list" class="device-log">
                 <li class="status-msg">Initiating ARP scan for nearby devices…</li>
@@ -269,7 +275,7 @@
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div class="card text-center">
                 <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Packets Captured</p>
-                <p id="stat-packets" class="text-2xl font-bold text-cyan-400 font-mono">0</p>
+                <p id="stat-packets" class="text-2xl font-bold text-blue-400 font-mono">0</p>
             </div>
             <div class="card text-center">
                 <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Anomalies Detected</p>
@@ -290,7 +296,7 @@
             <!-- Live Threat Chart -->
             <div class="card col-span-2">
                 <h2 class="text-lg font-bold mb-4 text-gray-300 flex items-center gap-2">
-                    <span class="text-cyan-400">📈</span> Live Traffic &amp; Threat Level
+                    <span class="text-blue-400">📈</span> Live Traffic &amp; Threat Level
                 </h2>
                 <div class="relative h-64">
                     <canvas id="threatChart"></canvas>
@@ -315,7 +321,7 @@
         <!-- Geo-IP Threat Map -->
         <div class="card mb-6">
             <h2 class="text-lg font-bold mb-4 text-gray-300 flex items-center gap-2">
-                <span class="text-cyan-400">🗺️</span> Live Threat Mapping
+                <span class="text-blue-400">🗺️</span> Live Threat Mapping
             </h2>
             <div id="threat-map" class="h-80 w-full rounded-lg relative z-0"></div>
         </div>
@@ -324,7 +330,7 @@
         <div class="card">
             <div class="log-search-row">
                 <h2 class="text-lg font-bold text-gray-300 flex items-center gap-2 whitespace-nowrap">
-                    <span class="text-cyan-400">🛡️</span> Live Packet Log
+                    <span class="text-blue-400">🛡️</span> Live Packet Log
                 </h2>
                 <div class="search-wrap flex-1">
                     <span class="search-icon">🔍</span>

@@ -655,7 +655,10 @@ def _on_packet(pkt):
         anomaly_alert = {
             "message": f"Suspicious activity detected from {src} ({', '.join(reasons)})",
             "severity": "High" if threat > 0.7 else "Medium" if threat > 0.4 else "Low",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
+            "source": src,
+            "threat_level": float(threat),
+            "reasons": reasons
         }
         alerts_history.append(anomaly_alert)
         if len(alerts_history) > 100:
@@ -743,22 +746,34 @@ async def honeypot_entry(request: Request):
 async def get_geoip(ip: str):
     """Proxies ip-api.com and returns GeoIP data. Results are cached in memory."""
     if _is_private_ip(ip):
-        # Place local IPs at a fixed 'Home' position to show activity on map
-        return {"lat": 20.5937, "lon": 78.9629, "country": "Private/Local", "org": "Internal LAN", "city": "Home"}
+        # Place local IPs with slight deterministic offset so multiple devices don't stack on exact same pixel
+        h = sum(ord(c) for c in ip)
+        jitter_lat = ((h % 40) - 20) * 0.04
+        jitter_lon = (((h * 7) % 40) - 20) * 0.04
+        return {
+            "lat": 20.5937 + jitter_lat,
+            "lon": 78.9629 + jitter_lon,
+            "country": "Private/Local",
+            "org": "Internal LAN",
+            "city": f"LAN ({ip})"
+        }
 
     if ip in _geoip_cache:
         return _geoip_cache[ip]
 
     try:
-        resp = requests.get(
-            f"http://ip-api.com/json/{ip}?fields=status,country,city,lat,lon,org",
-            timeout=5
-        )
-        data = resp.json()
-        if data.get("status") == "success":
+        def _fetch():
+            r = requests.get(
+                f"http://ip-api.com/json/{ip}?fields=status,country,city,lat,lon,org",
+                timeout=3
+            )
+            return r.json()
+
+        data = await asyncio.to_thread(_fetch)
+        if data.get("status") == "success" and (data.get("lat") != 0 or data.get("lon") != 0):
             result = {
-                "lat": data.get("lat", 0),
-                "lon": data.get("lon", 0),
+                "lat": float(data.get("lat", 0)),
+                "lon": float(data.get("lon", 0)),
                 "country": data.get("country", "Unknown"),
                 "city": data.get("city", ""),
                 "org": data.get("org", "Unknown"),
@@ -768,7 +783,19 @@ async def get_geoip(ip: str):
     except Exception as e:
         print(f"[GeoIP] Lookup failed for {ip}: {e}")
 
-    return {"lat": 0, "lon": 0, "country": "Unknown", "org": "Unknown", "city": ""}
+    # Deterministic fallback coordinate so every external IP shows on map even if offline or rate-limited
+    h = sum(ord(c) for c in ip)
+    fallback_lat = 15.0 + ((h * 13) % 40) - 20
+    fallback_lon = ((h * 31) % 360) - 180
+    fallback = {
+        "lat": fallback_lat,
+        "lon": fallback_lon,
+        "country": "Remote Origin",
+        "org": "Internet Host",
+        "city": f"{ip}"
+    }
+    _geoip_cache[ip] = fallback
+    return fallback
 
 @app.get("/api/scan-network")
 async def get_network_devices(username: str = Depends(get_current_user)):
@@ -791,12 +818,16 @@ async def login_for_access_token(request: Request, form_data: OAuth2PasswordRequ
         return {"access_token": access_token, "token_type": "bearer", "role": role}
 
     # Broadcast failed-login alert
+    client_ip = request.client.host if request.client else "127.0.0.1"
     await manager.broadcast({
         "type": "alert",
         "data": {
-            "message": f"Failed login attempt for user '{form_data.username}' from {request.client.host}",
+            "message": f"Failed login attempt for user '{form_data.username}' from {client_ip}",
             "severity": "High",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
+            "source": client_ip,
+            "threat_level": 0.85,
+            "reasons": ["Authentication Failure", "Brute-Force Suspect"]
         }
     })
     raise HTTPException(status_code=401, detail="Incorrect credentials")

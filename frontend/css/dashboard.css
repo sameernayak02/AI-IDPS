@@ -9,9 +9,10 @@
     --bg-card:      #020813;
     --bg-card-hover:#040e21;
     --border:       rgba(255,255,255,0.05);
-    --border-glow:  rgba(0,212,255,0.4);
-    --accent:       #00d4ff;
-    --accent-dim:   rgba(0,212,255,0.15);
+    --border-glow:  rgba(37,99,235,0.4);
+    --accent:       #2563eb;
+    --accent-light: #3b82f6;
+    --accent-dim:   rgba(37,99,235,0.15);
     --accent-red:   #ff4757;
     --accent-green: #2ed573;
     --accent-amber: #ffa502;
@@ -22,7 +23,7 @@
     --radius:       14px;
     --radius-sm:    8px;
     --shadow-card:  0 8px 32px rgba(0,0,0,0.5);
-    --shadow-glow:  0 0 20px rgba(0,212,255,0.25);
+    --shadow-glow:  0 0 20px rgba(37,99,235,0.25);
     --transition:   all 0.3s cubic-bezier(0.4,0,0.2,1);
 }
 
@@ -36,14 +37,14 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     background-image:
-        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,212,255,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(37,99,235,0.05) 0%, transparent 60%),
         radial-gradient(ellipse 60% 40% at 80% 80%, rgba(120,40,200,0.04) 0%, transparent 60%);
 }
 
 /* ---------- Scrollbar ---------- */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 999px; }
+::-webkit-scrollbar-thumb { background: rgba(37,99,235,0.4); border-radius: 999px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 /* ============================================================
@@ -70,8 +71,8 @@ body {
 }
 
 .search-bar:focus {
-    border-color: rgba(0,212,255,0.5);
-    box-shadow: 0 0 0 3px rgba(0,212,255,0.12), 0 0 20px rgba(0,212,255,0.2);
+    border-color: rgba(37, 99, 235, 0.6);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15), 0 0 20px rgba(37, 99, 235, 0.25);
     background: rgba(255,255,255,0.10);
 }
 
@@ -113,20 +114,32 @@ body {
 
 /* ---------- Network Monitor Card ---------- */
 .network-monitor {
-    background: rgba(0,212,255,0.03);
-    border: 1px solid rgba(0,212,255,0.15);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 24px;
     margin: 20px 0;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+    backdrop-filter: blur(8px);
 }
 
-.network-monitor h3 {
-    color: var(--accent);
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    margin-bottom: 12px;
+.network-monitor:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(255,255,255,0.14);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+
+.network-monitor h3, .network-monitor h2 {
+    color: #d1d5db;
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: normal;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .device-log {
@@ -139,22 +152,22 @@ body {
 }
 
 .device-log li {
-    background: rgba(0,212,255,0.05);
+    background: rgba(37,99,235,0.05);
     border-left: 3px solid var(--accent);
     padding: 8px 14px;
     margin-bottom: 6px;
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    color: var(--accent);
+    color: #93c5fd;
     transition: var(--transition);
     font-weight: 500;
 }
 
 .device-log li:hover {
-    background: rgba(0,212,255,0.10);
+    background: rgba(37,99,235,0.12);
 }
 
 .device-item {
-    background: rgba(0,212,255,0.05);
+    background: rgba(37,99,235,0.05);
     padding: 10px 14px;
     margin-bottom: 5px;
     border-left: 3px solid var(--accent);
@@ -163,13 +176,13 @@ body {
     justify-content: space-between;
     font-family: var(--font-mono);
     font-size: 0.78rem;
-    color: var(--accent);
+    color: #93c5fd;
 }
 
 /* ---------- Scan Button ---------- */
 .btn-scan {
-    background: linear-gradient(135deg, var(--accent) 0%, #0099bb 100%);
-    color: #000;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #ffffff;
     border: none;
     border-radius: 24px;
     padding: 9px 24px;
@@ -181,12 +194,12 @@ body {
     text-transform: uppercase;
     margin-top: 14px;
     transition: var(--transition);
-    box-shadow: 0 4px 16px rgba(0,212,255,0.3);
+    box-shadow: 0 4px 16px rgba(37,99,235,0.3);
 }
 
 .btn-scan:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,212,255,0.5);
+    box-shadow: 0 8px 24px rgba(37,99,235,0.5);
 }
 
 .btn-scan:active {
@@ -195,7 +208,7 @@ body {
 
 /* ---------- Legacy device-container (kept for compat) ---------- */
 .device-container {
-    background: rgba(0,212,255,0.03);
+    background: rgba(37,99,235,0.03);
     padding: 15px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
@@ -308,18 +321,179 @@ body {
     border: 1px solid var(--border);
 }
 
+/* ---------- Synchronized Radar Threat Markers ---------- */
+.threat-radar-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.threat-radar-core {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    z-index: 2;
+    transition: transform 0.2s ease;
+}
+
+.threat-radar-core.critical {
+    background: #ff2a44;
+    box-shadow: 0 0 12px #ff2a44, 0 0 24px rgba(255, 42, 68, 0.8);
+}
+
+.threat-radar-core.high {
+    background: #ff4757;
+    box-shadow: 0 0 10px #ff4757, 0 0 20px rgba(255, 71, 87, 0.7);
+}
+
+.threat-radar-core.medium {
+    background: #ffa502;
+    box-shadow: 0 0 10px #ffa502, 0 0 18px rgba(255, 165, 2, 0.6);
+}
+
+.threat-radar-core.traffic {
+    width: 10px;
+    height: 10px;
+    background: #2563eb;
+    border: 1.5px solid #ffffff;
+    box-shadow: 0 0 8px #2563eb;
+}
+
+.threat-radar-wave {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: threat-radar-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+    z-index: 1;
+}
+
+.threat-radar-wave.critical {
+    border: 2px solid rgba(255, 42, 68, 0.8);
+    background: rgba(255, 42, 68, 0.25);
+}
+
+.threat-radar-wave.high {
+    border: 2px solid rgba(255, 71, 87, 0.7);
+    background: rgba(255, 71, 87, 0.2);
+}
+
+.threat-radar-wave.medium {
+    border: 2px solid rgba(255, 165, 2, 0.6);
+    background: rgba(255, 165, 2, 0.15);
+}
+
+@keyframes threat-radar-ping {
+    0% {
+        transform: scale(0.3);
+        opacity: 1;
+    }
+    80%, 100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+}
+
+/* Interactive Alert Cards */
+.alert-card-interactive {
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.alert-card-interactive:hover {
+    transform: translateX(4px);
+    background: rgba(239, 68, 68, 0.18) !important;
+    border-color: rgba(239, 68, 68, 0.7) !important;
+}
+
+.alert-card-interactive.focused-threat {
+    animation: alert-flash-glow 2s ease-in-out;
+    background: rgba(239, 68, 68, 0.25) !important;
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+@keyframes alert-flash-glow {
+    0% { transform: scale(1.02); box-shadow: 0 0 25px rgba(239, 68, 68, 0.8); }
+    50% { transform: scale(1.01); box-shadow: 0 0 15px rgba(239, 68, 68, 0.5); }
+    100% { transform: scale(1); }
+}
+
 /* ---------- Custom Leaflet Popup ---------- */
 .leaflet-popup-content-wrapper {
-    background: rgba(10,14,28,0.95) !important;
-    border: 1px solid var(--border-glow) !important;
+    background: rgba(8, 12, 24, 0.96) !important;
+    border: 1px solid rgba(37, 99, 235, 0.35) !important;
     color: var(--text-primary) !important;
-    backdrop-filter: blur(12px);
-    border-radius: var(--radius-sm) !important;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
+    backdrop-filter: blur(14px);
+    border-radius: 14px !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 20px rgba(37, 99, 235, 0.2) !important;
+    padding: 2px !important;
 }
 
 .leaflet-popup-tip {
-    background: rgba(10,14,28,0.95) !important;
+    background: rgba(8, 12, 24, 0.96) !important;
+}
+
+.threat-popup-body {
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.threat-popup-body .popup-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.threat-popup-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.popup-btn {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.popup-btn-block {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
+}
+
+.popup-btn-block:hover {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+.popup-btn-locate {
+    background: rgba(37, 99, 235, 0.2);
+    border-color: rgba(37, 99, 235, 0.4);
+    color: #60a5fa;
+}
+
+.popup-btn-locate:hover {
+    background: #2563eb;
+    color: #ffffff;
 }
 
 /* ---------- Login Form Override ---------- */
@@ -355,3 +529,85 @@ body {
 .threat-high   { background: rgba(255,71,87,0.2);  color: #ff4757; }
 .threat-medium { background: rgba(255,165,2,0.2);  color: #ffa502; }
 .threat-low    { background: rgba(46,213,115,0.15);color: #2ed573; }
+
+/* ---------- Universal Logout Button & Action Links ---------- */
+.edit-profile-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    line-height: 1.2;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.edit-profile-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+#logout-btn {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border: 1px solid rgba(239, 68, 68, 0.25) !important;
+    color: #f87171 !important;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    line-height: 1.2;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+#logout-btn:hover {
+    background: rgba(239, 68, 68, 0.22) !important;
+    border-color: rgba(239, 68, 68, 0.5) !important;
+    color: #fca5a5 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25);
+}
+
+/* ---------- Universal Navigation Login Button ---------- */
+.top-login-link, .login-pill-btn {
+    background: rgba(37, 99, 235, 0.1) !important;
+    border: 1px solid rgba(37, 99, 235, 0.25) !important;
+    color: #60a5fa !important;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    line-height: 1.2;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.top-login-link:hover, .login-pill-btn:hover {
+    background: rgba(37, 99, 235, 0.22) !important;
+    border-color: rgba(37, 99, 235, 0.5) !important;
+    color: #93c5fd !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+}
