@@ -23,4 +23,4 @@
    ```bash
    python -m http.server 8080
    ```
-   > You can then view the dashboard at `http://localhost:8080`
+   > You can then view the dashboard at `http://localhost:8080` or 'https://ai-idps-dashboard.vercel.app/'
