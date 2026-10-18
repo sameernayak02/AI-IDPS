@@ -1199,6 +1199,23 @@ async def unblock_ip(data: IPBlockRequest, user: dict = Depends(get_current_user
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+def _reset_idps_session_state():
+    global _packet_log_id, _total_anomalies_count, captured_packets_history, alerts_history
+    _packet_log_id = 0
+    _total_anomalies_count = 0
+    captured_packets_history.clear()
+    alerts_history.clear()
+
+@app.post("/reset-stats")
+@app.get("/reset-stats")
+async def reset_stats():
+    """Resets real-time packet counters, captured packets history, and alert history."""
+    _reset_idps_session_state()
+    return {
+        "status": "success",
+        "message": "Packet counters, anomaly counters, and history have been reset to zero."
+    }
+
 @app.websocket("/ws/traffic")
 async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
@@ -1217,7 +1234,13 @@ async def websocket_endpoint(websocket: WebSocket):
         await websocket.send_json(initial_payload)
         
         while True:
-            await websocket.receive_text()
+            text = await websocket.receive_text()
+            try:
+                msg = json.loads(text)
+                if msg.get("type") == "reset_stats":
+                    _reset_idps_session_state()
+            except Exception:
+                pass
     except WebSocketDisconnect:
         manager.disconnect(websocket)
 

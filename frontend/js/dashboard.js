@@ -138,8 +138,76 @@ document.addEventListener('DOMContentLoaded', () => {
         window._threatHistory = new Array(30).fill(0);
     });
 
+    // ── Session Reset (Restarts everything from zero on refresh / button click) ────
+    async function resetSessionData() {
+        console.log('[IDS] Resetting session data to zero...');
+        
+        // 1. Tell backend to reset counters & history
+        try {
+            await fetch(`${API_BASE}/reset-stats`, { method: 'POST' });
+        } catch (err) {
+            console.warn('[IDS] Could not reset backend stats:', err);
+        }
+
+        // Notify backend over WebSocket if open
+        if (wsConnection && wsConnection.readyState === WebSocket.OPEN) {
+            try {
+                wsConnection.send(JSON.stringify({ type: 'reset_stats' }));
+            } catch (e) {}
+        }
+
+        // 2. Reset frontend state variables
+        totalPackets = 0;
+        totalAnomalies = 0;
+        alertCount = 0;
+        ppsCounter = 0;
+        ppsHistory = new Array(30).fill(0);
+        ppsLabels = new Array(30).fill('').map(() => new Date().toLocaleTimeString());
+        window._threatHistory = new Array(30).fill(0);
+        currentSecondMaxThreat = 0;
+        wsLogs = [];
+        allLogs = [];
+        recentAlertDedupe.clear();
+
+        // 3. Clear Map Markers
+        if (activeThreatMarkers && threatMap) {
+            activeThreatMarkers.forEach(item => {
+                if (item.marker) {
+                    try { threatMap.removeLayer(item.marker); } catch (e) {}
+                }
+            });
+            activeThreatMarkers.clear();
+        }
+
+        // 4. Reset DOM counters and panels
+        const pStat = document.getElementById('stat-packets');
+        if (pStat) pStat.textContent = '0';
+        
+        const aStat = document.getElementById('stat-anomalies');
+        if (aStat) aStat.textContent = '0';
+        
+        const ppsDisplay = document.getElementById('stat-pps');
+        if (ppsDisplay) ppsDisplay.textContent = '0';
+        
+        const alertStat = document.getElementById('stat-alerts');
+        if (alertStat) alertStat.textContent = '0';
+        
+        const alertBadge = document.getElementById('stat-alerts-badge');
+        if (alertBadge) alertBadge.textContent = '0';
+
+        const alertsList = document.getElementById('alerts-list');
+        if (alertsList) alertsList.innerHTML = '<li class="text-gray-600 text-sm text-center py-4">No alerts yet…</li>';
+
+        const tbody = document.getElementById('logs-table-body');
+        if (tbody) tbody.innerHTML = '<tr><td colspan="9" class="text-center text-gray-600 py-8">Waiting for live packets…</td></tr>';
+
+        // 5. Update chart with clean zero data
+        updateChart();
+    }
+    window.resetDashboardSession = resetSessionData;
+
     // ── Dashboard bootstrap ───────────────────────────────────
-    function showDashboard() {
+    async function showDashboard() {
         console.log('[IDS] Initializing dashboard components...');
         loginContainer.classList.add('hidden');
         dashboardContainer.classList.remove('hidden');
@@ -149,6 +217,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Ensure map is sized correctly if it was hidden
         setTimeout(() => { if(threatMap) threatMap.invalidateSize(); }, 500);
+
+        // Always restart from start on page load / refresh
+        await resetSessionData();
 
         connectWebSocket();
         startPPSTicker();
@@ -579,13 +650,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!statusBadge) return;
         
         if (state === 'connected') {
-            statusBadge.className = "flex items-center text-green-400 font-semibold bg-green-500/10 border border-green-500/20 px-3 py-1.5 rounded-2xl text-sm whitespace-nowrap shadow-[0_0_15px_rgba(34,197,94,0.1)]";
+            statusBadge.className = "system-status-pill text-green-400 bg-green-500/10 border border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.1)]";
             statusBadge.innerHTML = `<span class="status-dot" style="background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span> Sniffing Live`;
         } else if (state === 'connecting') {
-            statusBadge.className = "flex items-center text-amber-400 font-semibold bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-2xl text-sm whitespace-nowrap shadow-[0_0_15px_rgba(245,158,11,0.1)]";
+            statusBadge.className = "system-status-pill text-amber-400 bg-amber-500/10 border border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.1)]";
             statusBadge.innerHTML = `<span class="status-dot" style="background: var(--accent-amber); box-shadow: 0 0 8px var(--accent-amber);"></span> Connecting…`;
         } else {
-            statusBadge.className = "flex items-center text-red-400 font-semibold bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-2xl text-sm whitespace-nowrap shadow-[0_0_15px_rgba(239,68,68,0.1)]";
+            statusBadge.className = "system-status-pill text-red-400 bg-red-500/10 border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.1)]";
             statusBadge.innerHTML = `<span class="status-dot" style="background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); animation: none;"></span> Offline`;
         }
     }
@@ -606,54 +677,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 const message = JSON.parse(event.data);
 
                 if (message.type === 'initial_state') {
-                    const stateData = message.data;
-                    totalPackets = stateData.total_packets || 0;
-                    totalAnomalies = stateData.total_anomalies || 0;
-                    alertCount = 0; // Reset count to accurately reflect state
+                    // Fresh session initialization: reset UI counters & panels to clean slate
+                    totalPackets = 0;
+                    totalAnomalies = 0;
+                    alertCount = 0;
                     
                     const pStat = document.getElementById('stat-packets');
-                    if (pStat) pStat.textContent = totalPackets;
+                    if (pStat) pStat.textContent = '0';
                     
                     const aStat = document.getElementById('stat-anomalies');
-                    if (aStat) aStat.textContent = totalAnomalies;
+                    if (aStat) aStat.textContent = '0';
                     
                     const list = document.getElementById('alerts-list');
-                    if (list) list.innerHTML = '';
+                    if (list) list.innerHTML = '<li class="text-gray-600 text-sm text-center py-4">No alerts yet…</li>';
+
+                    const tbody = document.getElementById('logs-table-body');
+                    if (tbody) tbody.innerHTML = '<tr><td colspan="9" class="text-center text-gray-600 py-8">Waiting for live packets…</td></tr>';
                     
-                    // Synchronize all existing alerts with Threat Map, Alerts Panel, and Chart
-                    if (stateData.alerts && stateData.alerts.length) {
-                        stateData.alerts.forEach(alert => {
-                            syncThreatEvent({
-                                source: alert.source || extractIP(alert),
-                                message: alert.message,
-                                severity: alert.severity || 'Medium',
-                                threat_level: alert.threat_level || 0.75,
-                                reasons: alert.reasons || [alert.message],
-                                timestamp: alert.timestamp
-                            }, true /* isInitial */);
-                        });
-                    } else {
-                        if (list) list.innerHTML = '<li class="text-gray-600 text-sm text-center py-4">No alerts yet…</li>';
-                    }
-                    
-                    // Synchronize log history & map markers for previous anomalies
-                    if (stateData.history && stateData.history.length) {
-                        wsLogs = [];
-                        allLogs = [];
-                        stateData.history.forEach(log => {
-                            log._geo = geoCache[log.source] || null;
-                            wsLogs.push(log);
-                            allLogs.unshift(log);
-                            if (log.class === 'Anomaly') {
-                                addMapMarker(log.source, log.reasons, log.class, log.threat_level || 0.75, true);
-                            }
-                        });
-                        if (wsLogs.length > 50) wsLogs.splice(0, wsLogs.length - 50);
-                        if (allLogs.length > 200) allLogs.splice(200);
-                        
-                        renderLogsTable(currentSearchTerm);
-                        updateChart();
-                    }
+                    updateChart();
                     return;
                 }
 

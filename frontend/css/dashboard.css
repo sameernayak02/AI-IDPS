@@ -557,31 +557,68 @@ body {
     color: #ffffff;
 }
 
+/* ---------- Top Header Actions & Logout Button (Uniform 36px Height & Pill Shape) ---------- */
+.header-action-btn, #logout-btn, #refresh-btn {
+    height: 36px !important;
+    padding: 0 14px !important;
+    border-radius: 9999px !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    text-decoration: none !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+}
+
 #logout-btn {
     background: rgba(239, 68, 68, 0.1) !important;
     border: 1px solid rgba(239, 68, 68, 0.25) !important;
     color: #f87171 !important;
-    padding: 0.6rem 1.2rem;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    line-height: 1.2;
-    white-space: nowrap;
-    flex-shrink: 0;
 }
 
 #logout-btn:hover {
     background: rgba(239, 68, 68, 0.22) !important;
     border-color: rgba(239, 68, 68, 0.5) !important;
     color: #fca5a5 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25);
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25) !important;
+}
+
+#refresh-btn {
+    background: rgba(59, 130, 246, 0.1) !important;
+    border: 1px solid rgba(59, 130, 246, 0.25) !important;
+    color: #60a5fa !important;
+}
+
+#refresh-btn:hover {
+    background: rgba(59, 130, 246, 0.22) !important;
+    border-color: rgba(59, 130, 246, 0.5) !important;
+    color: #93c5fd !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25) !important;
+}
+
+.system-status-pill {
+    height: 36px !important;
+    padding: 0 14px !important;
+    border-radius: 9999px !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
 }
 
 /* ---------- Universal Navigation Login Button ---------- */
