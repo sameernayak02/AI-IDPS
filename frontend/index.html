@@ -25,7 +25,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- Custom CSS (includes glassmorphism search bars) -->
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/dashboard.css?v=2.3">
 
     <style>
         /* Dark map tiles overlay */
@@ -161,15 +161,15 @@
 
         <!-- Header -->
         <!-- Header -->
-        <header class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8 p-6 md:p-8 rounded-2xl bg-[#020813] border border-white/5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative overflow-hidden">
+        <header class="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 mb-8 p-5 sm:p-6 rounded-2xl bg-[#020813] border border-white/5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative overflow-hidden">
             <!-- Subtle glow background details to make it feel extremely premium -->
             <div class="absolute -left-10 -top-10 w-40 h-40 rounded-full bg-blue-500/5 blur-3xl pointer-events-none"></div>
             <div class="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-blue-500/5 blur-3xl pointer-events-none"></div>
 
-            <div class="flex items-center gap-5 sm:gap-6 z-10">
+            <div class="flex items-center gap-4 sm:gap-5 z-10">
                 <!-- Cyber Shield Icon -->
                 <div class="flex-shrink-0 flex items-center justify-center">
-                    <svg class="w-16 h-16 sm:w-20 sm:h-20" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-14 h-14 sm:w-16 sm:h-16" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <filter id="cyanGlow" x="-20%" y="-20%" width="140%" height="140%">
                                 <feGaussianBlur stdDeviation="3.5" result="blur"/>
@@ -228,22 +228,22 @@
 
                 <!-- Headline Text -->
                 <div>
-                    <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
+                    <h1 class="text-lg sm:text-xl md:text-2xl lg:text-[1.65rem] font-extrabold tracking-tight leading-tight">
                         <span class="block whitespace-nowrap">
                             <span class="text-[#2563eb]">AI-Powered</span> <span class="text-white">Intrusion Detection</span>
                         </span>
                         <span class="block text-white whitespace-nowrap">&amp; Prevention System</span>
                     </h1>
-                    <div class="w-[320px] sm:w-[380px] lg:w-[450px] h-[2px] bg-gradient-to-r from-[#2563eb] to-transparent mt-3.5 mb-4 opacity-90 rounded-full"></div>
-                    <p class="text-slate-400 text-sm lg:text-base font-normal tracking-wide">Real-Time Network Traffic &amp; Threat Analysis</p>
+                    <div class="w-48 sm:w-64 lg:w-72 h-[2px] bg-gradient-to-r from-[#2563eb] to-transparent mt-2 mb-2.5 opacity-90 rounded-full"></div>
+                    <p class="text-slate-400 text-xs sm:text-sm font-normal tracking-wide">Real-Time Network Traffic &amp; Threat Analysis</p>
                 </div>
             </div>
 
             <!-- Top Search Bar & Actions (Uniform Size) -->
-            <div class="flex flex-nowrap items-center mt-4 lg:mt-0 gap-2 shrink-0 z-10">
-                <div class="search-wrap w-36 sm:w-40 md:w-44" style="height: 36px;">
-                    <span class="search-icon" style="left: 12px; font-size: 11px;">🔍</span>
-                    <input type="text" id="top-search-bar" class="search-bar" style="height: 36px; padding: 0 14px 0 32px; font-size: 0.78rem; border-radius: 9999px;"
+            <div class="flex flex-wrap items-center mt-3 xl:mt-0 gap-1.5 z-10">
+                <div class="search-wrap w-24 sm:w-28 md:w-32" style="height: 32px;">
+                    <span class="search-icon" style="left: 9px; font-size: 9px;">🔍</span>
+                    <input type="text" id="top-search-bar" class="search-bar" style="height: 32px; padding: 0 8px 0 25px; font-size: 0.70rem; border-radius: 9999px;"
                         placeholder="Search threats…"
                         oninput="filterLogsFromSearch(this.value)">
                 </div>
@@ -253,12 +253,16 @@
                     <span class="status-dot" style="background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span> Sniffing Live
                 </span>
 
+                <button type="button" onclick="window.openModelDiagnosticsModal && window.openModelDiagnosticsModal()" id="ai-model-btn" class="header-action-btn bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30" title="Inspect Machine Learning Model & Metrics">
+                    <i class="fas fa-brain" style="font-size: 10px;"></i> AI Model
+                </button>
+
                 <button type="button" onclick="window.resetDashboardSession && window.resetDashboardSession()" id="refresh-btn" class="header-action-btn" title="Restart everything from zero">
-                    <i class="fas fa-redo" style="font-size: 11px;"></i> Refresh
+                    <i class="fas fa-redo" style="font-size: 10px;"></i> Reset Session
                 </button>
 
                 <a href="#" id="logout-btn" class="header-action-btn">
-                    <i class="fas fa-sign-out-alt" style="font-size: 11px;"></i> Logout
+                    <i class="fas fa-sign-out-alt" style="font-size: 10px;"></i> Logout
                 </a>
             </div>
         </header>
@@ -370,8 +374,134 @@
 
     </div><!-- /dashboard-container -->
 
+    <!-- ═══════════════════════════════════
+         AI MODEL DIAGNOSTICS MODAL (Viva & Academic Defense)
+    ═══════════════════════════════════ -->
+    <div id="model-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md transition-opacity">
+        <div class="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#040a17] border border-blue-500/30 shadow-[0_20px_60px_rgba(0,0,0,0.8)] p-6 sm:p-8 text-white">
+            <!-- Modal Header -->
+            <div class="flex items-start justify-between pb-5 border-b border-white/10">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 text-xl shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold flex items-center gap-2 text-white">
+                            AI Classifier Architecture &amp; Metrics
+                            <span id="modal-model-status" class="text-xs px-2.5 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30 font-mono">
+                                Live In Production
+                            </span>
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
+                            Trained on <span class="text-blue-400 font-semibold">CICIDS2017 &amp; NSL-KDD</span> Benchmark Flows for Real-Time Packet Classification
+                        </p>
+                    </div>
+                </div>
+                <button type="button" onclick="window.closeModelDiagnosticsModal()" class="text-slate-400 hover:text-white text-xl p-1.5 transition rounded-lg hover:bg-white/5">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Model Specifications & Metrics Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 my-6">
+                <div class="p-4 rounded-xl bg-slate-900/60 border border-white/5 text-center">
+                    <p class="text-slate-400 text-xs uppercase tracking-wider font-semibold mb-1">Model Accuracy</p>
+                    <p id="modal-acc" class="text-2xl sm:text-3xl font-extrabold text-green-400 font-mono">99.89%</p>
+                    <span class="text-[10px] text-slate-500">Stratified Test Set</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900/60 border border-white/5 text-center">
+                    <p class="text-slate-400 text-xs uppercase tracking-wider font-semibold mb-1">Precision</p>
+                    <p id="modal-prec" class="text-2xl sm:text-3xl font-extrabold text-blue-400 font-mono">99.89%</p>
+                    <span class="text-[10px] text-slate-500">Weighted Average</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900/60 border border-white/5 text-center">
+                    <p class="text-slate-400 text-xs uppercase tracking-wider font-semibold mb-1">Recall</p>
+                    <p id="modal-rec" class="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-mono">99.89%</p>
+                    <span class="text-[10px] text-slate-500">True Positive Rate</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900/60 border border-white/5 text-center">
+                    <p class="text-slate-400 text-xs uppercase tracking-wider font-semibold mb-1">F1-Score</p>
+                    <p id="modal-f1" class="text-2xl sm:text-3xl font-extrabold text-purple-400 font-mono">0.9989</p>
+                    <span class="text-[10px] text-slate-500">Harmonic Mean</span>
+                </div>
+            </div>
+
+            <!-- Architecture Details Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="p-4 rounded-xl bg-slate-900/40 border border-white/5">
+                    <h4 class="text-sm font-semibold text-blue-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <i class="fas fa-microchip"></i> Model Specifications
+                    </h4>
+                    <ul class="text-xs space-y-1.5 text-slate-300">
+                        <li><strong class="text-slate-400">Primary Classifier:</strong> <span id="modal-algo">Random Forest (100 Trees, Depth 14)</span></li>
+                        <li><strong class="text-slate-400">Feature Dimensions:</strong> 13 Extracted Flow Attributes</li>
+                        <li><strong class="text-slate-400">Training Sample Size:</strong> 17,500 balanced network flows</li>
+                        <li><strong class="text-slate-400">Target Attack Classes:</strong> Normal, DDoS/DoS, Port Scan, Brute Force, Injection</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 rounded-xl bg-slate-900/40 border border-white/5">
+                    <h4 class="text-sm font-semibold text-blue-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <i class="fas fa-shield-alt"></i> Real-Time Scapy Integration
+                    </h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Every intercepted packet is converted into a 13-dimensional vector in real-time. Features include Shannon entropy, TCP flag bitmasks, packet rate dynamics, and port classification to output live confidence probabilities.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Explainable AI (XAI) Feature Importances -->
+            <div class="mb-6">
+                <h4 class="text-sm font-semibold text-blue-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <i class="fas fa-chart-bar"></i> Explainable AI: Feature Importance Weights
+                </h4>
+                <div id="modal-features-list" class="space-y-2">
+                    <!-- Populated dynamically via JS -->
+                    <div class="flex items-center justify-between text-xs text-slate-300 mb-1">
+                        <span>packet_rate (Frequency Dynamics)</span>
+                        <span class="font-mono text-blue-400">25.6%</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2">
+                        <div class="bg-blue-500 h-2 rounded-full" style="width: 25.6%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confusion Matrix Display -->
+            <div class="mb-6">
+                <h4 class="text-sm font-semibold text-blue-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <i class="fas fa-th"></i> Confusion Matrix (Validation Distribution)
+                </h4>
+                <div class="overflow-x-auto">
+                    <table id="confusion-matrix-table" class="w-full text-xs text-center border-collapse border border-white/10 rounded-lg">
+                        <thead class="bg-slate-800/80 text-slate-300">
+                            <tr>
+                                <th class="p-2 border border-white/10 text-left">Actual \ Predicted</th>
+                                <th class="p-2 border border-white/10">Normal</th>
+                                <th class="p-2 border border-white/10">DDoS</th>
+                                <th class="p-2 border border-white/10">Port Scan</th>
+                                <th class="p-2 border border-white/10">Brute Force</th>
+                                <th class="p-2 border border-white/10">Injection</th>
+                            </tr>
+                        </thead>
+                        <tbody id="confusion-matrix-body" class="font-mono text-slate-300">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex justify-end pt-4 border-t border-white/10">
+                <button type="button" onclick="window.closeModelDiagnosticsModal()" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-lg shadow-blue-500/20 transition">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Frontend logic -->
-    <script src="js/dashboard.js?v=2.2"></script>
+    <script src="js/dashboard.js?v=2.3"></script>
 </body>
 
 </html>

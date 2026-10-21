@@ -1,0 +1,164 @@
+{
+    "model_name": "Random Forest Classifier",
+    "dataset_source": "CICIDS2017 & NSL-KDD Normalized Flow Dataset",
+    "training_timestamp": "2026-10-21T21:59:36.769404",
+    "total_samples": 17500,
+    "features": [
+        "length",
+        "protocol_code",
+        "tcp_flags_syn",
+        "tcp_flags_ack",
+        "tcp_flags_fin",
+        "tcp_flags_rst",
+        "header_length",
+        "ttl",
+        "window_size",
+        "dst_port",
+        "packet_rate",
+        "has_payload",
+        "payload_entropy"
+    ],
+    "target_classes": {
+        "0": "Normal",
+        "1": "DDoS / DoS Attack",
+        "2": "Port Scan (Reconnaissance)",
+        "3": "Brute Force Attack",
+        "4": "Malformed / Injection"
+    },
+    "metrics": {
+        "accuracy": 99.89,
+        "f1_score": 0.9989,
+        "precision": 0.9989,
+        "recall": 0.9989
+    },
+    "feature_importances": {
+        "packet_rate": 25.62,
+        "payload_entropy": 20.47,
+        "length": 20.2,
+        "dst_port": 10.56,
+        "window_size": 9.76,
+        "tcp_flags_ack": 4.98,
+        "has_payload": 3.95,
+        "header_length": 1.85,
+        "tcp_flags_syn": 1.8,
+        "ttl": 0.38,
+        "protocol_code": 0.32,
+        "tcp_flags_fin": 0.06,
+        "tcp_flags_rst": 0.04
+    },
+    "confusion_matrix": {
+        "labels": [
+            "Normal",
+            "DDoS / DoS Attack",
+            "Port Scan (Reconnaissance)",
+            "Brute Force Attack",
+            "Malformed / Injection"
+        ],
+        "matrix": [
+            [
+                696,
+                0,
+                0,
+                2,
+                2
+            ],
+            [
+                0,
+                700,
+                0,
+                0,
+                0
+            ],
+            [
+                0,
+                0,
+                700,
+                0,
+                0
+            ],
+            [
+                0,
+                0,
+                0,
+                700,
+                0
+            ],
+            [
+                0,
+                0,
+                0,
+                0,
+                700
+            ]
+        ],
+        "normalized": [
+            [
+                0.994,
+                0.0,
+                0.0,
+                0.003,
+                0.003
+            ],
+            [
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            [
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0
+            ],
+            [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ]
+        ]
+    },
+    "per_class_metrics": {
+        "Normal": {
+            "precision": 100.0,
+            "recall": 99.4,
+            "f1-score": 99.7,
+            "support": 700.0
+        },
+        "DDoS / DoS Attack": {
+            "precision": 100.0,
+            "recall": 100.0,
+            "f1-score": 100.0,
+            "support": 700.0
+        },
+        "Port Scan (Reconnaissance)": {
+            "precision": 100.0,
+            "recall": 100.0,
+            "f1-score": 100.0,
+            "support": 700.0
+        },
+        "Brute Force Attack": {
+            "precision": 99.7,
+            "recall": 100.0,
+            "f1-score": 99.9,
+            "support": 700.0
+        },
+        "Malformed / Injection": {
+            "precision": 99.7,
+            "recall": 100.0,
+            "f1-score": 99.9,
+            "support": 700.0
+        }
+    }
+}

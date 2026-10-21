@@ -557,19 +557,19 @@ body {
     color: #ffffff;
 }
 
-/* ---------- Top Header Actions & Logout Button (Uniform 36px Height & Pill Shape) ---------- */
+/* ---------- Top Header Actions & Logout Button (Uniform 32px Height & Pill Shape) ---------- */
 .header-action-btn, #logout-btn, #refresh-btn {
-    height: 36px !important;
-    padding: 0 14px !important;
+    height: 32px !important;
+    padding: 0 8px !important;
     border-radius: 9999px !important;
-    font-size: 0.78rem !important;
+    font-size: 0.69rem !important;
     font-weight: 600 !important;
     cursor: pointer !important;
     transition: all 0.25s ease !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 6px !important;
+    gap: 3px !important;
     text-decoration: none !important;
     line-height: 1 !important;
     white-space: nowrap !important;
@@ -606,15 +606,15 @@ body {
 }
 
 .system-status-pill {
-    height: 36px !important;
-    padding: 0 14px !important;
+    height: 32px !important;
+    padding: 0 8px !important;
     border-radius: 9999px !important;
-    font-size: 0.78rem !important;
+    font-size: 0.69rem !important;
     font-weight: 600 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 6px !important;
+    gap: 3px !important;
     line-height: 1 !important;
     white-space: nowrap !important;
     flex-shrink: 0 !important;

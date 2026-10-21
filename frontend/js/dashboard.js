@@ -882,9 +882,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
                 <td>
                     <span class="text-xs font-semibold ${isAnomaly ? 'text-red-400' : 'text-green-400'}">
-                        ${isAnomaly ? '⚠ Anomaly' : '✓ Normal'}
+                        ${isAnomaly ? ('⚠ ' + (log.attack_type || 'Anomaly')) : '✓ Normal'}
                     </span>
-                    ${log.reasons && log.reasons.length ? `<br><span class="text-gray-600" style="font-size:0.65rem">${escapeHTML(log.reasons.slice(0,2).join(', '))}</span>` : ''}
+                    ${log.reasons && log.reasons.length ? `<br><span class="text-gray-400" style="font-size:0.65rem">${escapeHTML(log.reasons.slice(0,2).join(', '))}</span>` : ''}
                 </td>
                 <td><span class="threat-pill ${threatClass}">${threat.toFixed(2)}</span></td>
                 <td>
@@ -937,6 +937,116 @@ document.addEventListener('DOMContentLoaded', () => {
             '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
         }[t]));
     }
+
+    // ── AI Model Diagnostics Modal Controller ──────────────
+    window.openModelDiagnosticsModal = async function() {
+        const modal = document.getElementById('model-modal');
+        if (!modal) return;
+        modal.classList.remove('hidden');
+
+        let data = {
+            status: 'active',
+            model_name: 'Random Forest Classifier (CICIDS2017 & NSL-KDD)',
+            metrics: { accuracy: 99.89, precision: 0.9989, recall: 0.9989, f1_score: 0.9989 },
+            feature_importances: {
+                "packet_rate": 25.62,
+                "payload_entropy": 20.47,
+                "length": 20.2,
+                "dst_port": 10.56,
+                "window_size": 9.76,
+                "tcp_flags_ack": 4.98
+            },
+            confusion_matrix: {
+                labels: ['Normal', 'DDoS', 'Port Scan', 'Brute Force', 'Injection'],
+                matrix: [
+                    [696, 0, 0, 2, 2],
+                    [0, 700, 0, 0, 0],
+                    [0, 0, 700, 0, 0],
+                    [0, 0, 0, 700, 0],
+                    [0, 0, 0, 0, 700]
+                ]
+            }
+        };
+
+        try {
+            const res = await fetch(`${API_BASE}/api/model-info`);
+            if (res.ok) {
+                const liveData = await res.json();
+                if (liveData && liveData.status === 'active') {
+                    data = liveData;
+                }
+            }
+        } catch (err) {
+            console.log('[IDS] Live model endpoint unreachable, using bundled metadata:', err.message);
+        }
+
+        if (data.metrics) {
+            const accEl = document.getElementById('modal-acc');
+            const precEl = document.getElementById('modal-prec');
+            const recEl = document.getElementById('modal-rec');
+            const f1El = document.getElementById('modal-f1');
+            if (accEl) accEl.textContent = `${data.metrics.accuracy}%`;
+            if (precEl) precEl.textContent = `${Math.round(data.metrics.precision * 1000) / 10}%`;
+            if (recEl) recEl.textContent = `${Math.round(data.metrics.recall * 1000) / 10}%`;
+            if (f1El) f1El.textContent = `${data.metrics.f1_score}`;
+        }
+
+        const algoEl = document.getElementById('modal-algo');
+        if (algoEl) algoEl.textContent = data.model_name || 'Random Forest Classifier';
+
+        // Render Feature Importances
+        const featList = document.getElementById('modal-features-list');
+        if (featList && data.feature_importances) {
+            featList.innerHTML = '';
+            const entries = Object.entries(data.feature_importances).slice(0, 6);
+            entries.forEach(([feat, weight]) => {
+                const item = document.createElement('div');
+                item.className = 'mb-2';
+                item.innerHTML = `
+                    <div class="flex items-center justify-between text-xs text-slate-300 mb-1">
+                        <span class="font-mono">${escapeHTML(feat)}</span>
+                        <span class="font-mono text-blue-400 font-semibold">${weight}%</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                        <div class="bg-gradient-to-r from-blue-600 to-cyan-400 h-2 rounded-full transition-all duration-500" style="width: ${Math.min(weight * 3.5, 100)}%"></div>
+                    </div>
+                `;
+                featList.appendChild(item);
+            });
+        }
+
+        // Render Confusion Matrix
+        const cmBody = document.getElementById('confusion-matrix-body');
+        if (cmBody && data.confusion_matrix && data.confusion_matrix.matrix) {
+            cmBody.innerHTML = '';
+            const labels = data.confusion_matrix.labels || ['Normal', 'DDoS', 'Port Scan', 'Brute Force', 'Injection'];
+            data.confusion_matrix.matrix.forEach((row, rIdx) => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-white/5 hover:bg-slate-800/40';
+                let html = `<td class="p-2 border border-white/10 text-left font-sans font-semibold text-slate-300">${labels[rIdx]}</td>`;
+                row.forEach((val, cIdx) => {
+                    const isDiagonal = (rIdx === cIdx);
+                    const highlight = isDiagonal ? 'text-green-400 font-bold bg-green-950/20' : (val > 0 ? 'text-amber-400' : 'text-slate-600');
+                    html += `<td class="p-2 border border-white/10 ${highlight}">${val}</td>`;
+                });
+                tr.innerHTML = html;
+                cmBody.appendChild(tr);
+            });
+        }
+    };
+
+    window.closeModelDiagnosticsModal = function() {
+        const modal = document.getElementById('model-modal');
+        if (modal) modal.classList.add('hidden');
+    };
+
+    // Close modal on click outside
+    window.addEventListener('click', (e) => {
+        const modal = document.getElementById('model-modal');
+        if (modal && e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
 
     // Auto-show dashboard if already logged in (placed at the end to ensure all functions are defined)
     if (token) showDashboard();

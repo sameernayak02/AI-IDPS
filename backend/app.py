@@ -30,6 +30,7 @@ from dotenv import load_dotenv
 from scapy.all import ARP, Ether, srp, sniff, IP, TCP, UDP, ICMP, conf
 from auth import Token, create_access_token, get_current_user, verify_admin_role, ACCESS_TOKEN_EXPIRE_MINUTES
 from honeypot import start_honeypot_service, honeypot_trigger_logic
+from ml_engine import ml_engine
 
 # --- Initialization ---
 load_dotenv()
@@ -583,31 +584,12 @@ captured_packets_history = []
 alerts_history = []
 _loop: Optional[asyncio.AbstractEventLoop] = None
 
-def _classify_packet(src_ip: str, proto: str, length: int) -> tuple:
-    """Simple heuristic classifier — returns (class_label, threat_level, reasons)."""
-    reasons = []
-    is_anomaly = False
-    threat = 0.05
-
+def _classify_packet(pkt, src_ip: str, proto: str, length: int) -> tuple:
+    """Classifies intercepted packets using the trained Multi-Class Machine Learning pipeline."""
     if src_ip in BLACKLIST_IPS:
-        return "Anomaly", 1.0, ["Blacklisted IP Match"]
+        return "Anomaly", 1.0, "Blacklisted IP", ["FireHOL Threat Feed Blacklist Match"]
 
-    # Heuristics
-    if length > 1500:
-        reasons.append("Oversized Packet")
-        threat += 0.2
-        is_anomaly = True
-    if proto == "ICMP":
-        reasons.append("ICMP Probe")
-        threat += 0.1
-    if proto == "TCP" and length < 40:
-        reasons.append("Suspicious Short TCP")
-        threat += 0.15
-        is_anomaly = True
-
-    threat = min(round(threat, 3), 0.99)
-    label = "Anomaly" if is_anomaly else "Normal"
-    return label, threat, reasons
+    return ml_engine.classify_packet(pkt, src_ip, proto, length)
 
 def _on_packet(pkt):
     """Called by Scapy for every captured packet (runs in sniffer thread)."""
@@ -617,7 +599,6 @@ def _on_packet(pkt):
 
     src = pkt[IP].src
     dst = pkt[IP].dst
-    print(f"[Traffic] {src} -> {dst}")
     length = len(pkt)
 
     # Determine protocol
@@ -630,7 +611,7 @@ def _on_packet(pkt):
     else:
         proto = "IP"
 
-    label, threat, reasons = _classify_packet(src, proto, length)
+    label, threat, attack_name, reasons = _classify_packet(pkt, src, proto, length)
     _packet_log_id += 1
 
     log_entry = {
@@ -643,6 +624,7 @@ def _on_packet(pkt):
             "proto": proto,
             "length": length,
             "class": label,
+            "attack_type": attack_name,
             "threat_level": threat,
             "reasons": reasons,
         }
@@ -653,10 +635,11 @@ def _on_packet(pkt):
         _total_anomalies_count += 1
         # Add to global alerts history
         anomaly_alert = {
-            "message": f"Suspicious activity detected from {src} ({', '.join(reasons)})",
-            "severity": "High" if threat > 0.7 else "Medium" if threat > 0.4 else "Low",
+            "message": f"AI Detected {attack_name} from {src} ({', '.join(reasons[:2])})",
+            "severity": "Critical" if threat > 0.85 else ("High" if threat > 0.7 else "Medium"),
             "timestamp": datetime.now().isoformat(),
             "source": src,
+            "attack_type": attack_name,
             "threat_level": float(threat),
             "reasons": reasons
         }
@@ -672,6 +655,7 @@ def _on_packet(pkt):
                     "ip": src,
                     "last_seen": datetime.now().isoformat(),
                     "threat_level": float(threat),
+                    "attack_type": attack_name,
                     "is_blocked": src in blocked_ips
                 }, "$inc": {"detection_count": 1}},
                 upsert=True
@@ -681,6 +665,7 @@ def _on_packet(pkt):
             "src_ip": src,
             "timestamp": log_entry["data"]["timestamp"],
             "threat_level": threat,
+            "attack_type": attack_name,
             "reasons": reasons
         })
         # Keep only last 1000 detections to save memory
@@ -802,6 +787,11 @@ async def get_network_devices(username: str = Depends(get_current_user)):
     """API called by dashboard to list connected devices."""
     devices = scan_network() # Now detects range automatically
     return {"connected_devices": devices, "count": len(devices)}
+
+@app.get("/api/model-info")
+async def get_ai_model_metrics():
+    """Returns trained AI model architecture, accuracy, confusion matrix, and feature importances."""
+    return ml_engine.get_model_info()
 
 @app.post("/token", response_model=Token)
 @limiter.limit("5/minute")
