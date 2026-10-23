@@ -245,6 +245,43 @@ manager = ConnectionManager()
 BLACKLIST_IPS = set()
 blocked_ips = set()
 detections = []
+auto_mitigate_enabled: bool = False
+AUTO_MITIGATE_THRESHOLD: float = 0.85
+
+def _auto_mitigate_threat(ip: str, threat: float, attack_name: str, reasons: list = None) -> bool:
+    """Automated IPS Mitigation: blocks high-threat external IP addresses via Windows Firewall."""
+    global blocked_ips
+    if _is_private_ip(ip) or ip in blocked_ips:
+        return False
+    try:
+        rule_name = f"AI_IPS_AutoBlock_{ip.replace(':', '_')}"
+        subprocess.run(
+            f'netsh advfirewall firewall add rule name="{rule_name}" dir=in action=block remoteip={ip}',
+            shell=True,
+            capture_output=True
+        )
+        blocked_ips.add(ip)
+        print(f"[IPS AUTO-MITIGATION] Successfully created firewall block rule for {ip} (Threat: {int(threat*100)}%)")
+
+        if blocked_ips_collection is not None:
+            blocked_ips_collection.update_one(
+                {"ip": ip},
+                {"$set": {
+                    "ip": ip,
+                    "blocked_at": datetime.now(),
+                    "blocked_by": "AI-IPS-Autonomous",
+                    "reason": f"{attack_name} (Confidence: {int(threat*100)}%)"
+                }},
+                upsert=True
+            )
+        if anomaly_ips_collection is not None:
+            anomaly_ips_collection.update_one({"ip": ip}, {"$set": {"is_blocked": True}})
+
+        return True
+    except Exception as e:
+        print(f"[IPS AUTO-MITIGATION] Failed to block {ip}: {e}")
+        return False
+
 
 # --- GeoIP In-Memory Cache ---
 _geoip_cache: dict = {}
@@ -614,6 +651,11 @@ def _on_packet(pkt):
     label, threat, attack_name, reasons = _classify_packet(pkt, src, proto, length)
     _packet_log_id += 1
 
+    # Check IPS Auto-Mitigation (Active Prevention)
+    is_auto_mitigated = False
+    if label == "Anomaly" and auto_mitigate_enabled and threat >= AUTO_MITIGATE_THRESHOLD and not _is_private_ip(src) and src not in blocked_ips:
+        is_auto_mitigated = _auto_mitigate_threat(src, threat, attack_name, reasons)
+
     log_entry = {
         "type": "traffic_update",
         "data": {
@@ -627,6 +669,8 @@ def _on_packet(pkt):
             "attack_type": attack_name,
             "threat_level": threat,
             "reasons": reasons,
+            "auto_mitigated": is_auto_mitigated,
+            "is_blocked": src in blocked_ips
         }
     }
 
@@ -641,11 +685,35 @@ def _on_packet(pkt):
             "source": src,
             "attack_type": attack_name,
             "threat_level": float(threat),
-            "reasons": reasons
+            "reasons": reasons,
+            "auto_mitigated": is_auto_mitigated
         }
         alerts_history.append(anomaly_alert)
         if len(alerts_history) > 100:
             alerts_history.pop(0)
+
+        # If autonomously mitigated, broadcast immediate IPS alert
+        if is_auto_mitigated:
+            ips_alert = {
+                "message": f"[IPS AUTO-BLOCKED] Malicious host {src} blocked via Firewall ({attack_name}, {int(threat*100)}% Threat)",
+                "severity": "Critical",
+                "timestamp": datetime.now().isoformat(),
+                "source": src,
+                "attack_type": attack_name,
+                "threat_level": float(threat),
+                "reasons": ["Automated IPS Action", "Firewall Rule Created"] + (reasons or []),
+                "auto_mitigated": True
+            }
+            alerts_history.append(ips_alert)
+            if _loop and not _loop.is_closed():
+                asyncio.run_coroutine_threadsafe(manager.broadcast({
+                    "type": "alert",
+                    "data": ips_alert
+                }), _loop)
+                asyncio.run_coroutine_threadsafe(manager.broadcast({
+                    "type": "ip_blocked",
+                    "data": {"ip": src, "auto": True, "attack_type": attack_name}
+                }), _loop)
 
         # Save to MongoDB anomaly collection
         if anomaly_ips_collection is not None:
@@ -666,7 +734,9 @@ def _on_packet(pkt):
             "timestamp": log_entry["data"]["timestamp"],
             "threat_level": threat,
             "attack_type": attack_name,
-            "reasons": reasons
+            "reasons": reasons,
+            "auto_mitigated": is_auto_mitigated,
+            "is_blocked": src in blocked_ips
         })
         # Keep only last 1000 detections to save memory
         if len(detections) > 1000:
@@ -1190,11 +1260,65 @@ async def unblock_ip(data: IPBlockRequest, user: dict = Depends(get_current_user
         raise HTTPException(status_code=500, detail=str(e))
 
 def _reset_idps_session_state():
-    global _packet_log_id, _total_anomalies_count, captured_packets_history, alerts_history
+    global _packet_log_id, _total_anomalies_count, captured_packets_history, alerts_history, detections
     _packet_log_id = 0
     _total_anomalies_count = 0
     captured_packets_history.clear()
     alerts_history.clear()
+    detections.clear()
+
+@app.get("/api/ips/status")
+async def get_ips_status():
+    """Returns status of the Autonomous Intrusion Prevention System."""
+    return {
+        "enabled": auto_mitigate_enabled,
+        "threshold": AUTO_MITIGATE_THRESHOLD,
+        "blocked_ips_count": len(blocked_ips),
+        "mode": "Autonomous IPS (Auto-Mitigate)" if auto_mitigate_enabled else "Passive IDS (Alert Only)"
+    }
+
+@app.post("/api/ips/toggle")
+async def toggle_ips_mode(user: dict = Depends(get_current_user)):
+    """Toggles Autonomous IPS Mode ON/OFF."""
+    global auto_mitigate_enabled
+    auto_mitigate_enabled = not auto_mitigate_enabled
+    
+    # Broadcast status update to all connected dashboard websockets
+    await manager.broadcast({
+        "type": "ips_status_update",
+        "data": {
+            "enabled": auto_mitigate_enabled,
+            "mode": "Autonomous IPS" if auto_mitigate_enabled else "Passive IDS"
+        }
+    })
+    
+    return {
+        "status": "success",
+        "enabled": auto_mitigate_enabled,
+        "message": f"IPS Auto-Mitigation is now {'ENABLED (Active Prevention)' if auto_mitigate_enabled else 'DISABLED (Detection Only)'}"
+    }
+
+@app.get("/api/reports/incidents")
+async def get_incident_reports():
+    """Returns detected threat incidents formatted for academic viva and forensic audits."""
+    incidents = []
+    for d in reversed(detections):
+        incidents.append({
+            "timestamp": d.get("timestamp"),
+            "source_ip": d.get("src_ip"),
+            "attack_type": d.get("attack_type", "Anomaly"),
+            "threat_level": d.get("threat_level", 0.0),
+            "reasons": d.get("reasons", []),
+            "is_blocked": d.get("src_ip") in blocked_ips,
+            "auto_mitigated": d.get("auto_mitigated", False)
+        })
+    return {
+        "total_packets": _packet_log_id,
+        "total_anomalies": _total_anomalies_count,
+        "total_blocked_ips": len(blocked_ips),
+        "ips_auto_mitigate_enabled": auto_mitigate_enabled,
+        "incidents": incidents
+    }
 
 @app.post("/reset-stats")
 @app.get("/reset-stats")
@@ -1218,7 +1342,9 @@ async def websocket_endpoint(websocket: WebSocket):
                 "total_anomalies": _total_anomalies_count,
                 "total_alerts": len(alerts_history),
                 "history": captured_packets_history,
-                "alerts": alerts_history
+                "alerts": alerts_history,
+                "auto_mitigate": auto_mitigate_enabled,
+                "blocked_ips": list(blocked_ips)
             }
         }
         await websocket.send_json(initial_payload)

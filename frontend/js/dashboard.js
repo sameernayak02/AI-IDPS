@@ -32,10 +32,76 @@ document.addEventListener('DOMContentLoaded', () => {
     let pendingLookups      = new Set();  // IPs currently being fetched
     let currentSearchTerm   = '';
 
+    // IPS Autonomous Mitigation State
+    let ipsAutoMitigateActive = false;
+    const blockedIPsSet       = new Set();
+
     const API_BASE = 'http://localhost:8000';
     const WS_BASE  = 'ws://localhost:8000';
 
     console.log('[IDS] Script loaded, state initialized.');
+
+    function updateIPSModeUI(enabled) {
+        ipsAutoMitigateActive = !!enabled;
+        const btn = document.getElementById('ips-toggle-btn');
+        const label = document.getElementById('ips-toggle-label');
+        if (!btn || !label) return;
+        if (ipsAutoMitigateActive) {
+            btn.className = 'ips-toggle-btn ips-on';
+            label.textContent = 'IPS: ACTIVE (Auto-Mitigate)';
+            btn.title = 'Autonomous Prevention is ACTIVE: High-threat IPs (≥85%) are automatically blocked via Windows Firewall.';
+        } else {
+            btn.className = 'ips-toggle-btn ips-off';
+            label.textContent = 'IPS: Passive IDS';
+            btn.title = 'Intrusion Detection Only: Alerts are logged, but IPs are not automatically blocked.';
+        }
+    }
+
+    // ── Theme Manager (Dark / Light Mode) ─────────────────────
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('idps_theme', theme);
+
+        const icon = document.getElementById('theme-toggle-icon');
+        const text = document.getElementById('theme-toggle-text');
+        const btn  = document.getElementById('theme-toggle-btn');
+
+        if (theme === 'light') {
+            if (icon) icon.className = 'fas fa-sun text-amber-500';
+            if (text) text.textContent = 'Light';
+            if (btn) btn.title = 'Switch to Dark Cybersecurity Mode';
+        } else {
+            if (icon) icon.className = 'fas fa-moon text-blue-400';
+            if (text) text.textContent = 'Dark';
+            if (btn) btn.title = 'Switch to High-Contrast Light Mode';
+        }
+
+        // Dynamically update Chart.js grid & tick colors
+        if (threatChartInstance && threatChartInstance.options && threatChartInstance.options.scales) {
+            const isLight = (theme === 'light');
+            const gridColor = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.04)';
+            const tickColor = isLight ? '#475569' : '#6b7a99';
+
+            if (threatChartInstance.options.scales.x) {
+                threatChartInstance.options.scales.x.grid.color = gridColor;
+                threatChartInstance.options.scales.x.ticks.color = tickColor;
+            }
+            if (threatChartInstance.options.scales.yThreat) {
+                threatChartInstance.options.scales.yThreat.grid.color = gridColor;
+            }
+            threatChartInstance.update();
+        }
+    }
+
+    window.toggleTheme = function() {
+        const current = document.documentElement.getAttribute('data-theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+    };
+
+    // Initialize Theme immediately
+    const savedTheme = localStorage.getItem('idps_theme') || 'dark';
+    applyTheme(savedTheme);
 
     // ── PPS & Threat ticker — syncs chart in real-time ─────────
     function startPPSTicker() {
@@ -279,14 +345,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 scales: {
                     x: {
-                        ticks: { color: '#6b7a99', maxTicksLimit: 8, font: { size: 10 } },
-                        grid: { color: 'rgba(255,255,255,0.04)' }
+                        ticks: { color: (document.documentElement.getAttribute('data-theme') === 'light' ? '#475569' : '#6b7a99'), maxTicksLimit: 8, font: { size: 10 } },
+                        grid: { color: (document.documentElement.getAttribute('data-theme') === 'light' ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255,255,255,0.04)') }
                     },
                     yThreat: {
                         position: 'left',
                         min: 0, max: 1,
                         ticks: { color: 'rgba(255,71,87,0.8)', font: { size: 10 } },
-                        grid: { color: 'rgba(255,255,255,0.04)' },
+                        grid: { color: (document.documentElement.getAttribute('data-theme') === 'light' ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255,255,255,0.04)') },
                         title: { display: true, text: 'Threat', color: 'rgba(255,71,87,0.6)', font: { size: 10 } }
                     },
                     yPPS: {
@@ -682,6 +748,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     totalAnomalies = 0;
                     alertCount = 0;
                     
+                    if (message.data && message.data.blocked_ips) {
+                        message.data.blocked_ips.forEach(ip => blockedIPsSet.add(ip));
+                    }
+                    if (message.data && message.data.auto_mitigate !== undefined) {
+                        updateIPSModeUI(message.data.auto_mitigate);
+                    }
+
                     const pStat = document.getElementById('stat-packets');
                     if (pStat) pStat.textContent = '0';
                     
@@ -698,11 +771,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
+                if (message.type === 'ips_status_update') {
+                    if (message.data && message.data.enabled !== undefined) {
+                        updateIPSModeUI(message.data.enabled);
+                    }
+                }
+
+                if (message.type === 'ip_blocked') {
+                    if (message.data && message.data.ip) {
+                        blockedIPsSet.add(message.data.ip);
+                        renderLogsTable(currentSearchTerm);
+                    }
+                }
+
                 if (message.type === 'traffic_update') {
                     const log = message.data;
                     totalPackets++;
                     ppsCounter++;
                     
+                    if (log.auto_mitigated || log.is_blocked) {
+                        blockedIPsSet.add(log.source);
+                    }
+
                     const pStat = document.getElementById('stat-packets');
                     if (pStat) pStat.textContent = totalPackets;
 
@@ -888,13 +978,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
                 <td><span class="threat-pill ${threatClass}">${threat.toFixed(2)}</span></td>
                 <td>
-                    <button class="btn-block" onclick="window.blockIp('${escapeHTML(log.source)}')">Block</button>
+                    ${log.auto_mitigated 
+                        ? `<span class="badge-auto-blocked" title="Autonomous IPS Mitigation">⚡ Auto-Blocked</span>` 
+                        : (blockedIPsSet.has(log.source) || log.is_blocked)
+                            ? `<span class="badge-blocked" title="Host is blocked on Firewall">✓ Blocked</span>`
+                            : `<button class="btn-block" onclick="window.blockIp('${escapeHTML(log.source)}')">Block</button>`
+                    }
                 </td>`;
             tbody.appendChild(row);
         });
     }
 
-    // ── Block IP ──────────────────────────────────────────────
     // ── Block IP ──────────────────────────────────────────────
     window.blockIp = async function (ip) {
         if (!confirm(`Are you sure you want to block IP: ${ip}?\nThis will create a Windows Firewall rule.`)) return;
@@ -914,6 +1008,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (res.ok) {
                 console.log(`[IDS] IP ${ip} blocked successfully.`);
+                blockedIPsSet.add(ip);
+                renderLogsTable(currentSearchTerm);
                 displaySecurityAlert({
                     message: `SYSTEM ACTION: IP ${ip} has been blacklisted and blocked via Firewall.`,
                     severity: 'High',
@@ -1040,15 +1136,241 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modal) modal.classList.add('hidden');
     };
 
-    // Close modal on click outside
+    // ── IPS Mode Toggle Controller ────────────────────────────
+    window.toggleIPSMode = async function() {
+        if (!token) {
+            alert('Please log in to toggle autonomous IPS mode.');
+            return;
+        }
+        try {
+            const res = await fetch(`${API_BASE}/api/ips/toggle`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                updateIPSModeUI(data.enabled);
+                displaySecurityAlert({
+                    message: data.message,
+                    severity: data.enabled ? 'High' : 'Medium',
+                    timestamp: new Date().toISOString()
+                });
+            } else {
+                const err = await res.json();
+                alert(`Failed to toggle IPS: ${err.detail || 'Unauthorized'}`);
+            }
+        } catch (e) {
+            console.error('[IPS] Toggle request error:', e);
+            // Optimistic fallback
+            updateIPSModeUI(!ipsAutoMitigateActive);
+        }
+    };
+
+    // ── Export Forensic Incident Report (CSV) ─────────────────
+    window.exportIncidentReportCSV = async function() {
+        let incidentLogs = allLogs.filter(l => l.class === 'Anomaly');
+
+        // Attempt to fetch full persistent incidents from backend
+        try {
+            const res = await fetch(`${API_BASE}/api/reports/incidents`);
+            if (res.ok) {
+                const reportData = await res.json();
+                if (reportData.incidents && reportData.incidents.length > 0) {
+                    incidentLogs = reportData.incidents;
+                }
+            }
+        } catch (e) {
+            console.log('[IDS] Live fallback for report export:', e);
+        }
+
+        if (!incidentLogs || incidentLogs.length === 0) {
+            alert('No threat incidents recorded in current session to export.');
+            return;
+        }
+
+        const headers = [
+            'Incident_ID',
+            'Timestamp_ISO',
+            'Source_IP',
+            'Destination_IP',
+            'Protocol',
+            'Packet_Size_Bytes',
+            'Attack_Classification',
+            'Threat_Confidence_Score',
+            'Root_Cause_Reasons',
+            'Mitigation_Status'
+        ];
+
+        const csvRows = [headers.join(',')];
+
+        incidentLogs.forEach((item, index) => {
+            const id = index + 1;
+            const ts = item.timestamp || new Date().toISOString();
+            const src = item.source || item.source_ip || 'Unknown';
+            const dst = item.destination || 'This PC / Gateway';
+            const proto = item.proto || 'TCP';
+            const len = item.length || 0;
+            const attack = item.attack_type || 'Anomaly';
+            const threat = typeof item.threat_level === 'number' ? item.threat_level.toFixed(4) : '1.0000';
+            const reasons = Array.isArray(item.reasons) ? item.reasons.join('; ') : (item.reasons || 'Pattern Anomaly');
+            const isMitigated = item.auto_mitigated ? 'Auto-Mitigated (IPS)' : (blockedIPsSet.has(src) || item.is_blocked ? 'Manually Blocked' : 'Alerted (Passive)');
+
+            const row = [
+                id,
+                `"${ts}"`,
+                `"${src}"`,
+                `"${dst}"`,
+                `"${proto}"`,
+                len,
+                `"${attack}"`,
+                threat,
+                `"${reasons.replace(/"/g, '""')}"`,
+                `"${isMitigated}"`
+            ];
+            csvRows.push(row.join(','));
+        });
+
+        const csvContent = csvRows.join('\r\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const dateStr = new Date().toISOString().slice(0, 10);
+        a.href = url;
+        a.download = `IDPS_Forensic_Incidents_${dateStr}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+    // ── Forensic Incident Report Modal (Viva / PDF) ────────────
+    window.openPrintReportModal = async function() {
+        const modal = document.getElementById('report-modal');
+        if (!modal) return;
+        modal.classList.remove('hidden');
+
+        // 1. Set Timestamps and Status
+        const timeEl = document.getElementById('report-timestamp');
+        if (timeEl) timeEl.textContent = new Date().toLocaleString();
+
+        const modeEl = document.getElementById('report-ips-mode');
+        if (modeEl) {
+            modeEl.textContent = ipsAutoMitigateActive ? 'Active IPS Mode (Autonomous)' : 'Passive IDS Mode (Detection Only)';
+            modeEl.className = ipsAutoMitigateActive ? 'text-green-400 font-semibold' : 'text-amber-400 font-semibold';
+        }
+
+        // 2. Fetch incidents or calculate from allLogs
+        let totalP = totalPackets;
+        let totalA = totalAnomalies;
+        let blockedCount = blockedIPsSet.size;
+        let incidentList = allLogs.filter(l => l.class === 'Anomaly');
+
+        try {
+            const res = await fetch(`${API_BASE}/api/reports/incidents`);
+            if (res.ok) {
+                const rep = await res.json();
+                if (rep.total_packets !== undefined) totalP = rep.total_packets;
+                if (rep.total_anomalies !== undefined) totalA = rep.total_anomalies;
+                if (rep.total_blocked_ips !== undefined) blockedCount = rep.total_blocked_ips;
+                if (rep.incidents && rep.incidents.length > 0) incidentList = rep.incidents;
+            }
+        } catch (e) {
+            console.log('[IDS] Using local memory stats for printable report');
+        }
+
+        // 3. Populate Summary Cards
+        const statTotal = document.getElementById('report-stat-total');
+        if (statTotal) statTotal.textContent = totalP;
+
+        const statAnom = document.getElementById('report-stat-anomalies');
+        if (statAnom) statAnom.textContent = totalA;
+
+        const statRate = document.getElementById('report-stat-rate');
+        if (statRate) {
+            const rate = totalP > 0 ? ((totalA / totalP) * 100).toFixed(1) : '0.0';
+            statRate.textContent = `${rate}%`;
+        }
+
+        const statBlocked = document.getElementById('report-stat-blocked');
+        if (statBlocked) statBlocked.textContent = blockedCount;
+
+        // 4. Populate Attack Summary
+        const attackSummaryEl = document.getElementById('report-attack-summary');
+        if (attackSummaryEl) {
+            const counts = {};
+            incidentList.forEach(inc => {
+                const at = inc.attack_type || 'Anomaly';
+                counts[at] = (counts[at] || 0) + 1;
+            });
+            if (Object.keys(counts).length === 0) {
+                attackSummaryEl.innerHTML = '<span class="text-slate-500 col-span-4 text-center py-2">No malicious attack vectors captured during this monitoring session.</span>';
+            } else {
+                attackSummaryEl.innerHTML = '';
+                Object.entries(counts).forEach(([atk, num]) => {
+                    const card = document.createElement('div');
+                    card.className = 'p-2.5 rounded-lg bg-slate-900/60 border border-white/5 flex items-center justify-between';
+                    card.innerHTML = `
+                        <span class="text-slate-300 font-medium">${escapeHTML(atk)}</span>
+                        <span class="px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 font-mono font-bold">${num}</span>
+                    `;
+                    attackSummaryEl.appendChild(card);
+                });
+            }
+        }
+
+        // 5. Populate Incident Rows
+        const tbody = document.getElementById('report-incident-rows');
+        if (tbody) {
+            tbody.innerHTML = '';
+            if (incidentList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500 font-sans">No anomaly incidents recorded yet.</td></tr>';
+            } else {
+                incidentList.slice(0, 50).forEach(inc => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-slate-800/40';
+                    const ts = inc.timestamp ? new Date(typeof inc.timestamp === 'number' ? inc.timestamp * 1000 : inc.timestamp).toLocaleTimeString() : '—';
+                    const src = inc.source || inc.source_ip || '—';
+                    const atk = inc.attack_type || 'Anomaly';
+                    const conf = typeof inc.threat_level === 'number' ? `${(inc.threat_level * 100).toFixed(0)}%` : '95%';
+                    const indicators = Array.isArray(inc.reasons) ? inc.reasons.slice(0, 2).join(', ') : (inc.reasons || 'Anomaly');
+                    const isMitigated = inc.auto_mitigated ? '<span class="text-green-400 font-bold">⚡ Auto-Mitigated</span>' : (blockedIPsSet.has(src) || inc.is_blocked ? '<span class="text-cyan-400 font-semibold">Blocked</span>' : '<span class="text-amber-400">Alert Only</span>');
+
+                    tr.innerHTML = `
+                        <td class="p-2.5 text-slate-400 font-mono text-[11px]">${ts}</td>
+                        <td class="p-2.5 text-blue-400 font-mono text-[11px] font-semibold">${escapeHTML(src)}</td>
+                        <td class="p-2.5 text-red-400 font-medium text-[11px]">${escapeHTML(atk)}</td>
+                        <td class="p-2.5 text-slate-300 font-mono text-[11px]">${conf}</td>
+                        <td class="p-2.5 text-slate-400 text-[11px] font-sans">${escapeHTML(indicators)}</td>
+                        <td class="p-2.5 text-[11px]">${isMitigated}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+    };
+
+    window.closePrintReportModal = function() {
+        const modal = document.getElementById('report-modal');
+        if (modal) modal.classList.add('hidden');
+    };
+
+    window.printReportDocument = function() {
+        window.print();
+    };
+
+    // Close modals on click outside
     window.addEventListener('click', (e) => {
-        const modal = document.getElementById('model-modal');
-        if (modal && e.target === modal) {
-            modal.classList.add('hidden');
+        const modelModal = document.getElementById('model-modal');
+        if (modelModal && e.target === modelModal) {
+            modelModal.classList.add('hidden');
+        }
+        const reportModal = document.getElementById('report-modal');
+        if (reportModal && e.target === reportModal) {
+            reportModal.classList.add('hidden');
         }
     });
 
     // Auto-show dashboard if already logged in (placed at the end to ensure all functions are defined)
     if (token) showDashboard();
 
-}); // DOMContentLoaded
+}); // DOMContentLoaded

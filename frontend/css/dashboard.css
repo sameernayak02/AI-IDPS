@@ -648,3 +648,448 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
 }
+
+/* ============================================================
+   IPS AUTO-MITIGATION TOGGLE & FORENSIC REPORT BUTTONS
+   ============================================================ */
+
+/* IPS Toggle Switch Button */
+.ips-toggle-btn {
+    height: 32px !important;
+    padding: 0 12px !important;
+    border-radius: 9999px !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+    font-family: var(--font-sans) !important;
+}
+
+.ips-toggle-btn.ips-off {
+    background: rgba(148, 163, 184, 0.08) !important;
+    border: 1px solid rgba(148, 163, 184, 0.25) !important;
+    color: #94a3b8 !important;
+}
+
+.ips-toggle-btn.ips-off:hover {
+    background: rgba(148, 163, 184, 0.16) !important;
+    border-color: rgba(148, 163, 184, 0.4) !important;
+    color: #cbd5e1 !important;
+    transform: translateY(-1px);
+}
+
+.ips-toggle-btn.ips-off .ips-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #64748b;
+}
+
+.ips-toggle-btn.ips-on {
+    background: rgba(16, 185, 129, 0.15) !important;
+    border: 1px solid rgba(16, 185, 129, 0.45) !important;
+    color: #34d399 !important;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.25) !important;
+}
+
+.ips-toggle-btn.ips-on:hover {
+    background: rgba(16, 185, 129, 0.25) !important;
+    border-color: #10b981 !important;
+    color: #6ee7b7 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4) !important;
+}
+
+.ips-toggle-btn.ips-on .ips-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: pulse-dot 1.5s infinite;
+}
+
+/* Forensic Table Action Buttons */
+.table-action-btn {
+    height: 32px !important;
+    padding: 0 12px !important;
+    border-radius: 9999px !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+    font-family: var(--font-sans) !important;
+}
+
+.export-csv-btn {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border: 1px solid rgba(16, 185, 129, 0.25) !important;
+    color: #6ee7b7 !important;
+}
+
+.export-csv-btn:hover {
+    background: rgba(16, 185, 129, 0.22) !important;
+    border-color: rgba(16, 185, 129, 0.5) !important;
+    color: #a7f3d0 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
+}
+
+.audit-report-btn {
+    background: rgba(59, 130, 246, 0.1) !important;
+    border: 1px solid rgba(59, 130, 246, 0.25) !important;
+    color: #93c5fa !important;
+}
+
+.audit-report-btn:hover {
+    background: rgba(59, 130, 246, 0.22) !important;
+    border-color: rgba(59, 130, 246, 0.5) !important;
+    color: #bfdbfe !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+}
+
+/* Table Auto-Blocked Status Badge */
+.badge-auto-blocked {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #34d399;
+}
+
+.badge-blocked {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #f87171;
+}
+
+/* ============================================================
+   PRINT / PDF AUDIT REPORT STYLES (@media print)
+   ============================================================ */
+@media print {
+    body * {
+        visibility: hidden !important;
+    }
+    #report-modal,
+    #report-modal * {
+        visibility: visible !important;
+    }
+    #report-modal {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+    }
+    .printable-modal-content {
+        max-width: 100% !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 10px !important;
+    }
+    .report-paper-header {
+        background: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
+    }
+    .report-paper-header h2 {
+        color: #0f172a !important;
+    }
+    .report-paper-header div {
+        color: #1e293b !important;
+    }
+    table {
+        color: #0f172a !important;
+        border-color: #cbd5e1 !important;
+    }
+    thead {
+        background: #f1f5f9 !important;
+        color: #0f172a !important;
+    }
+    th, td {
+        border-color: #e2e8f0 !important;
+        color: #0f172a !important;
+    }
+    .no-print {
+        display: none !important;
+    }
+}
+
+/* ============================================================
+   LIGHT / DARK THEME SYSTEM & CORNER TOGGLE BUTTON
+   ============================================================ */
+
+.theme-toggle-corner-btn, .theme-toggle-btn {
+    height: 34px !important;
+    padding: 0 14px !important;
+    border-radius: 9999px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    white-space: nowrap !important;
+    font-family: var(--font-sans) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    background: rgba(15, 23, 42, 0.82) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #e2e8f0 !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35) !important;
+}
+
+.theme-toggle-corner-btn:hover, .theme-toggle-btn:hover {
+    background: rgba(30, 41, 59, 0.95) !important;
+    border-color: rgba(37, 99, 235, 0.5) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* Light Mode Comprehensive Overrides */
+[data-theme="light"] {
+    --bg-primary:    #f1f5f9;
+    --bg-card:       #ffffff;
+    --bg-card-hover: #f8fafc;
+    --border:        rgba(0, 0, 0, 0.08);
+    --border-glow:   rgba(37, 99, 235, 0.2);
+    --text-primary:  #0f172a;
+    --text-muted:    #64748b;
+    --shadow-card:   0 4px 20px rgba(0, 0, 0, 0.06);
+    --shadow-glow:   0 0 16px rgba(37, 99, 235, 0.12);
+}
+
+[data-theme="light"] body {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    background-image:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(37, 99, 235, 0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(120, 40, 200, 0.04) 0%, transparent 60%) !important;
+}
+
+[data-theme="light"] header {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] header h1 span.text-white {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] header p.text-slate-400 {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .card,
+[data-theme="light"] .network-monitor {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .card:hover,
+[data-theme="light"] .network-monitor:hover {
+    background: #f8fafc !important;
+    border-color: rgba(37, 99, 235, 0.35) !important;
+}
+
+[data-theme="light"] .card h2,
+[data-theme="light"] .network-monitor h2,
+[data-theme="light"] .card h3 {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .text-gray-300,
+[data-theme="light"] .text-gray-400 {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .text-gray-500 {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .search-bar {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .search-bar::placeholder {
+    color: #94a3b8 !important;
+}
+
+[data-theme="light"] .theme-toggle-corner-btn,
+[data-theme="light"] .theme-toggle-btn {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .theme-toggle-corner-btn:hover,
+[data-theme="light"] .theme-toggle-btn:hover {
+    background: #ffffff !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="light"] .ids-table thead tr {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .ids-table th {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .ids-table td {
+    border-bottom: 1px solid #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .ids-table tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+[data-theme="light"] .device-log li {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    color: #1e293b !important;
+}
+
+[data-theme="light"] .alert-card-interactive {
+    background: rgba(254, 242, 242, 0.85) !important;
+    border-color: rgba(239, 68, 68, 0.35) !important;
+}
+
+[data-theme="light"] .alert-card-interactive span {
+    color: #1e293b !important;
+}
+
+[data-theme="light"] #login-form {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .login-title-text,
+[data-theme="light"] #login-form h1 span.text-white,
+[data-theme="light"] #login-form h1 .text-white {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] #login-form p {
+    color: #475569 !important;
+}
+
+[data-theme="light"] #login-form label {
+    color: #334155 !important;
+}
+
+[data-theme="light"] #login-form input {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* Light Map Tiles: Revert dark filter for natural, clean map */
+[data-theme="light"] .map-tiles-dark {
+    filter: none !important;
+}
+
+/* Leaflet Popups in Light Mode */
+[data-theme="light"] .leaflet-popup-content-wrapper {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .leaflet-popup-tip {
+    background: #ffffff !important;
+}
+
+[data-theme="light"] .threat-popup-body {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .threat-popup-body div {
+    color: #1e293b !important;
+}
+
+/* Modals in Light Mode */
+[data-theme="light"] #model-modal > div,
+[data-theme="light"] #report-modal > div {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] #model-modal h3,
+[data-theme="light"] #report-modal h3 {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] #model-modal .bg-slate-900\/60,
+[data-theme="light"] #report-modal .bg-slate-900\/80,
+[data-theme="light"] #report-modal .bg-slate-950\/60 {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] #model-modal p,
+[data-theme="light"] #report-modal p {
+    color: #334155 !important;
+}
+
+[data-theme="light"] #confusion-matrix-table thead,
+[data-theme="light"] #report-modal thead {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] #confusion-matrix-table td,
+[data-theme="light"] #report-modal td {
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+}
