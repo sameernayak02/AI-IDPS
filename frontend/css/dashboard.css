@@ -899,6 +899,47 @@ body {
     box-shadow: 0 6px 22px rgba(37, 99, 235, 0.25) !important;
 }
 
+/* ============================================================
+   THEME TOGGLE ICON & COLOR UTILITIES
+   Guarantees exact matching icon colors everywhere like Login Page
+   ============================================================ */
+.theme-toggle-corner-btn #theme-toggle-icon,
+.theme-toggle-btn #theme-toggle-icon,
+#theme-toggle-icon {
+    font-size: 0.85rem !important;
+    display: inline-block !important;
+    line-height: 1 !important;
+    transition: color 0.25s ease, transform 0.25s ease !important;
+}
+
+/* Dark Mode Icon: Vibrant Cyber Blue Moon */
+.text-blue-400,
+#theme-toggle-icon.text-blue-400,
+.theme-toggle-corner-btn #theme-toggle-icon.fa-moon,
+#theme-toggle-icon.fa-moon,
+[data-theme="dark"] #theme-toggle-icon.fa-moon {
+    color: #60a5fa !important;
+    text-shadow: 0 0 10px rgba(96, 165, 250, 0.5) !important;
+}
+
+/* Light Mode Icon: Vibrant Solar Amber/Gold Sun */
+.text-amber-500,
+#theme-toggle-icon.text-amber-500,
+.theme-toggle-corner-btn #theme-toggle-icon.fa-sun,
+#theme-toggle-icon.fa-sun,
+[data-theme="light"] #theme-toggle-icon.fa-sun {
+    color: #f59e0b !important;
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.45) !important;
+}
+
+.theme-toggle-corner-btn:hover #theme-toggle-icon.fa-moon {
+    transform: rotate(-15deg);
+}
+
+.theme-toggle-corner-btn:hover #theme-toggle-icon.fa-sun {
+    transform: rotate(25deg);
+}
+
 /* Light Mode Comprehensive Overrides */
 [data-theme="light"] {
     --bg-primary:    #f1f5f9;

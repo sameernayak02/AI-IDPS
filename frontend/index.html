@@ -11,6 +11,13 @@
     <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://a.tile.openstreetmap.org https://b.tile.openstreetmap.org https://c.tile.openstreetmap.org https://unpkg.com https://*.google.com https://*.gstatic.com; connect-src 'self' http://localhost:8000 http://127.0.0.1:8000 ws://localhost:8000 ws://127.0.0.1:8000 http://ip-api.com;">
 
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('idps_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -25,7 +32,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- Custom CSS (includes glassmorphism search bars) -->
-    <link rel="stylesheet" href="css/dashboard.css?v=2.9">
+    <link rel="stylesheet" href="css/dashboard.css?v=3.0">
 
     <style>
         /* Dark map tiles overlay */
@@ -68,6 +75,19 @@
             <span id="theme-toggle-text">Dark</span>
         </button>
     </div>
+    <script>
+        (function() {
+            const saved = localStorage.getItem('idps_theme') || 'dark';
+            const icon = document.getElementById('theme-toggle-icon');
+            const text = document.getElementById('theme-toggle-text');
+            const btn  = document.getElementById('theme-toggle-btn');
+            if (saved === 'light') {
+                if (icon) icon.className = 'fas fa-sun text-amber-500';
+                if (text) text.textContent = 'Light';
+                if (btn) btn.title = 'Switch to Dark Cybersecurity Mode';
+            }
+        })();
+    </script>
 
     <!-- ═══════════════════════════════════
          LOGIN SCREEN
