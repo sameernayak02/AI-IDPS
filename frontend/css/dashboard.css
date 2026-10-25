@@ -93,20 +93,25 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    z-index: 20 !important;
 }
 
 /* User & Password Input Icons */
-.search-icon.input-icon-user,
+.search-wrap .search-icon.input-icon-user,
 .input-icon-user,
+.search-icon.input-icon-user,
 .search-icon.input-icon-user i {
     color: #a855f7 !important; /* Cyber violet */
+    z-index: 20 !important;
     transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.search-icon.input-icon-key,
+.search-wrap .search-icon.input-icon-key,
 .input-icon-key,
+.search-icon.input-icon-key,
 .search-icon.input-icon-key i {
     color: #f59e0b !important; /* Cyber amber / gold */
+    z-index: 20 !important;
     transition: color 0.2s ease, transform 0.2s ease;
 }
 
@@ -1189,26 +1194,33 @@ body {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
 }
 
-[data-theme="light"] #login-form .search-icon,
-[data-theme="light"] #register-form .search-icon {
+[data-theme="light"] #login-form .search-icon:not(.input-icon-user):not(.input-icon-key),
+[data-theme="light"] #register-form .search-icon:not(.input-icon-user):not(.input-icon-key) {
     color: #64748b !important;
+    z-index: 20 !important;
 }
 
 /* Light Theme High Contrast Icons for Username & Password */
-[data-theme="light"] .search-icon.input-icon-user,
+[data-theme="light"] #login-form .search-icon.input-icon-user,
 [data-theme="light"] #login-form .input-icon-user,
+[data-theme="light"] #register-form .search-icon.input-icon-user,
 [data-theme="light"] #register-form .input-icon-user,
+[data-theme="light"] .search-icon.input-icon-user,
 [data-theme="light"] .input-icon-user,
 [data-theme="light"] .input-icon-user i {
     color: #7c3aed !important; /* Deep rich violet - perfectly visible on light bg */
+    z-index: 20 !important;
 }
 
-[data-theme="light"] .search-icon.input-icon-key,
+[data-theme="light"] #login-form .search-icon.input-icon-key,
 [data-theme="light"] #login-form .input-icon-key,
+[data-theme="light"] #register-form .search-icon.input-icon-key,
 [data-theme="light"] #register-form .input-icon-key,
+[data-theme="light"] .search-icon.input-icon-key,
 [data-theme="light"] .input-icon-key,
 [data-theme="light"] .input-icon-key i {
     color: #b45309 !important; /* Deep rich warm amber - perfectly visible on light bg */
+    z-index: 20 !important;
 }
 
 /* Dynamic Focus Glow & Color enhancement */

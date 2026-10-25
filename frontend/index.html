@@ -32,7 +32,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- Custom CSS (includes glassmorphism search bars) -->
-    <link rel="stylesheet" href="css/dashboard.css?v=3.3">
+    <link rel="stylesheet" href="css/dashboard.css?v=3.4">
 
     <style>
         /* Dark map tiles overlay */
@@ -167,16 +167,16 @@
 
             <div class="mb-6">
                 <label class="block text-[#6b7a99] mb-2.5 text-xs sm:text-[13px] uppercase tracking-widest font-semibold">Username</label>
-                <div class="search-wrap">
-                    <span class="search-icon input-icon-user !text-base !left-4"><i class="fas fa-user"></i></span>
+                <div class="search-wrap relative">
                     <input type="text" id="username" class="search-bar !py-3 !pl-11 !text-base" placeholder="Enter username" required>
+                    <span class="search-icon input-icon-user !text-base !left-4" style="z-index: 20; pointer-events: none;"><i class="fas fa-user"></i></span>
                 </div>
             </div>
             <div class="mb-8">
                 <label class="block text-[#6b7a99] mb-2.5 text-xs sm:text-[13px] uppercase tracking-widest font-semibold">Password</label>
-                <div class="search-wrap">
-                    <span class="search-icon input-icon-key !text-base !left-4"><i class="fas fa-key"></i></span>
+                <div class="search-wrap relative">
                     <input type="password" id="password" class="search-bar !py-3 !pl-11 !text-base" placeholder="Enter password" required>
+                    <span class="search-icon input-icon-key !text-base !left-4" style="z-index: 20; pointer-events: none;"><i class="fas fa-key"></i></span>
                 </div>
             </div>
             <div class="flex justify-center">
@@ -283,11 +283,11 @@
 
             <!-- Top Search Bar & Actions (Uniform Size) -->
             <div class="flex flex-wrap items-center mt-3 xl:mt-0 gap-1.5 z-10">
-                <div class="search-wrap w-24 sm:w-28 md:w-32" style="height: 32px;">
-                    <span class="search-icon" style="left: 9px; font-size: 10px;"><i class="fas fa-search"></i></span>
+                <div class="search-wrap w-24 sm:w-28 md:w-32 relative" style="height: 32px;">
                     <input type="text" id="top-search-bar" class="search-bar" style="height: 32px; padding: 0 8px 0 25px; font-size: 0.70rem; border-radius: 9999px;"
                         placeholder="Search threats…"
                         oninput="filterLogsFromSearch(this.value)">
+                    <span class="search-icon" style="left: 9px; font-size: 10px; z-index: 20; pointer-events: none;"><i class="fas fa-search"></i></span>
                 </div>
 
                 <span id="system-status"
@@ -390,11 +390,11 @@
                     </button>
                 </div>
 
-                <div class="search-wrap flex-1 min-w-[200px]">
-                    <span class="search-icon"><i class="fas fa-search"></i></span>
+                <div class="search-wrap flex-1 min-w-[200px] relative">
                     <input type="text" id="log-search-bar" class="search-bar"
                         placeholder="Filter by IP, protocol, country…"
                         oninput="filterLogsFromSearch(this.value)">
+                    <span class="search-icon" style="z-index: 20; pointer-events: none;"><i class="fas fa-search"></i></span>
                 </div>
 
                 <!-- Forensic Export & Audit Report Buttons -->
