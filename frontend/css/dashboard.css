@@ -1197,32 +1197,217 @@ body {
 }
 
 [data-theme="light"] #model-modal h3,
-[data-theme="light"] #report-modal h3 {
+[data-theme="light"] #report-modal h3,
+[data-theme="light"] #model-modal h2,
+[data-theme="light"] #report-modal h2 {
     color: #0f172a !important;
 }
 
-[data-theme="light"] #model-modal .bg-slate-900\/60,
-[data-theme="light"] #report-modal .bg-slate-900\/80,
-[data-theme="light"] #report-modal .bg-slate-950\/60 {
-    background: #f8fafc !important;
+[data-theme="light"] #model-modal .border-b,
+[data-theme="light"] #model-modal .border-t,
+[data-theme="light"] #report-modal .border-b,
+[data-theme="light"] #report-modal .border-t {
     border-color: #e2e8f0 !important;
 }
 
-[data-theme="light"] #model-modal p,
-[data-theme="light"] #report-modal p {
+[data-theme="light"] #model-modal button.text-slate-400,
+[data-theme="light"] #report-modal button.text-slate-400 {
+    color: #64748b !important;
+}
+
+[data-theme="light"] #model-modal button.text-slate-400:hover,
+[data-theme="light"] #report-modal button.text-slate-400:hover {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+}
+
+/* Metric Cards & Architecture Cards in Light Mode */
+[data-theme="light"] #model-modal .bg-slate-900\/60,
+[data-theme="light"] #model-modal .bg-slate-900\/40,
+[data-theme="light"] #report-modal .bg-slate-900\/80,
+[data-theme="light"] #report-modal .bg-slate-900\/60,
+[data-theme="light"] #report-modal .bg-slate-950\/60 {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] #model-modal .text-slate-400,
+[data-theme="light"] #report-modal .text-slate-400 {
+    color: #475569 !important;
+}
+
+[data-theme="light"] #model-modal .text-slate-500,
+[data-theme="light"] #report-modal .text-slate-500 {
+    color: #64748b !important;
+}
+
+/* Big Key Metrics Numbers */
+[data-theme="light"] #model-modal #modal-acc {
+    color: #15803d !important;
+}
+
+[data-theme="light"] #model-modal #modal-prec {
+    color: #1d4ed8 !important;
+}
+
+[data-theme="light"] #model-modal #modal-rec {
+    color: #0e7490 !important;
+}
+
+[data-theme="light"] #model-modal #modal-f1 {
+    color: #6d28d9 !important;
+}
+
+/* Section Headings in Modal */
+[data-theme="light"] #model-modal h4,
+[data-theme="light"] #report-modal h4 {
+    color: #1d4ed8 !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #model-modal h4 i,
+[data-theme="light"] #report-modal h4 i {
+    color: #2563eb !important;
+}
+
+/* Architecture Specs & Text */
+[data-theme="light"] #model-modal ul,
+[data-theme="light"] #model-modal li,
+[data-theme="light"] #model-modal .text-slate-300,
+[data-theme="light"] #report-modal .text-slate-300 {
+    color: #1e293b !important;
+}
+
+[data-theme="light"] #model-modal strong,
+[data-theme="light"] #model-modal strong.text-slate-400 {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #model-modal #modal-algo {
+    color: #1d4ed8 !important;
+    font-weight: 600 !important;
+}
+
+[data-theme="light"] #model-modal p.text-slate-300 {
     color: #334155 !important;
+    line-height: 1.6 !important;
+}
+
+/* Explainable AI (XAI) Feature Importance Bars & Text */
+[data-theme="light"] #modal-features-list .text-slate-300,
+[data-theme="light"] #modal-features-list span.font-mono,
+[data-theme="light"] #modal-features-list span:first-child {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #modal-features-list .text-blue-400,
+[data-theme="light"] #modal-features-list span.text-blue-400 {
+    color: #1d4ed8 !important;
+    font-weight: 800 !important;
+}
+
+[data-theme="light"] #modal-features-list .bg-slate-800 {
+    background-color: #e2e8f0 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] #modal-features-list .bg-gradient-to-r {
+    background: linear-gradient(90deg, #2563eb, #0284c7) !important;
+}
+
+/* Confusion Matrix & Tables in Light Mode */
+[data-theme="light"] #confusion-matrix-table,
+[data-theme="light"] #report-modal table {
+    border-color: #cbd5e1 !important;
+    background: #ffffff !important;
 }
 
 [data-theme="light"] #confusion-matrix-table thead,
 [data-theme="light"] #report-modal thead {
     background: #f1f5f9 !important;
     color: #0f172a !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] #confusion-matrix-table th,
+[data-theme="light"] #report-modal th {
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+    font-weight: 700 !important;
 }
 
 [data-theme="light"] #confusion-matrix-table td,
 [data-theme="light"] #report-modal td {
     color: #0f172a !important;
     border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] #confusion-matrix-table td.text-slate-300 {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #confusion-matrix-table td.text-green-400 {
+    color: #15803d !important;
+    background-color: #dcfce7 !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #confusion-matrix-table td.text-amber-400 {
+    color: #b45309 !important;
+    background-color: #fef3c7 !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #confusion-matrix-table td.text-slate-600 {
+    color: #94a3b8 !important;
+}
+
+[data-theme="light"] #confusion-matrix-table tr:hover {
+    background: #f8fafc !important;
+}
+
+/* Forensic Report Modal Details */
+[data-theme="light"] #report-modal .report-paper-header {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] #report-modal #report-stat-total {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] #report-modal #report-stat-anomalies {
+    color: #dc2626 !important;
+}
+
+[data-theme="light"] #report-modal #report-stat-rate {
+    color: #d97706 !important;
+}
+
+[data-theme="light"] #report-modal #report-stat-blocked {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] #report-attack-summary > div {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] #report-attack-summary span.text-slate-300 {
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+
+[data-theme="light"] #report-attack-summary span.text-red-400 {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+}
+
+[data-theme="light"] #report-incident-rows tr:hover {
+    background: #f8fafc !important;
 }
 
 /* ============================================================
