@@ -1183,3 +1183,115 @@ body {
     color: #0f172a !important;
     border-color: #e2e8f0 !important;
 }
+
+/* ============================================================
+   ROLE-BASED DASHBOARDS (Admin, Head Admin, Analyst, IP Control)
+   LIGHT MODE OVERRIDES
+   ============================================================ */
+[data-theme="light"] {
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+}
+
+[data-theme="light"] .profile-section {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .profile-info h1 {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .detail-value {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .detail-label {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .action-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .action-card:hover {
+    background: #f8fafc !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .action-card h2 {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .action-card p {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .action-icon {
+    background: rgba(37, 99, 235, 0.1) !important;
+    color: var(--primary) !important;
+}
+
+[data-theme="light"] .input-wrapper {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .edit-profile-btn {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #334155 !important;
+}
+
+[data-theme="light"] .edit-profile-btn:hover {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .section-card,
+[data-theme="light"] .requests-card {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .section-title {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .control-table th,
+[data-theme="light"] .requests-table th {
+    color: #64748b !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .control-table td,
+[data-theme="light"] .requests-table td {
+    color: #0f172a !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+[data-theme="light"] .badge-blocked {
+    background: #f1f5f9 !important;
+    color: #64748b !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .back-btn {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .back-btn:hover {
+    color: var(--primary) !important;
+}
+
+[data-theme="light"] header span {
+    color: #0f172a !important;
+}

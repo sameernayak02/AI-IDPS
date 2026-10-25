@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analyst Dashboard | IDS System</title>
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/dashboard.css?v=2.7">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('idps_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
     <style>
         :root {
             --primary: #2563eb;
@@ -228,15 +234,21 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Dashboard Header with Logout -->
+        <!-- Dashboard Header with Logout & Theme Toggle -->
         <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; z-index: 20;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-shield-virus" style="color: var(--primary); font-size: 1.5rem;"></i>
                 <span style="color: var(--text-main); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.5px;">Analyst <span style="color: var(--primary);">Dashboard</span></span>
             </div>
-            <a href="#" id="logout-btn" class="edit-profile-btn" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171;">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <button type="button" onclick="toggleTheme()" id="theme-toggle-btn" class="theme-toggle-corner-btn" style="position: static;" title="Switch between Dark and Light Mode">
+                    <i id="theme-toggle-icon" class="fas fa-moon text-blue-400"></i>
+                    <span id="theme-toggle-text">Dark</span>
+                </button>
+                <a href="#" id="logout-btn" class="edit-profile-btn" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
         </header>
 
         <!-- Analyst Profile Section -->
@@ -301,6 +313,33 @@
     </div>
 
     <script>
+        // ── Theme Manager ─────────────────────────────────────────
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('idps_theme', theme);
+            const icon = document.getElementById('theme-toggle-icon');
+            const text = document.getElementById('theme-toggle-text');
+            const btn  = document.getElementById('theme-toggle-btn');
+            if (theme === 'light') {
+                if (icon) icon.className = 'fas fa-sun text-amber-500';
+                if (text) text.textContent = 'Light';
+                if (btn) btn.title = 'Switch to Dark Cybersecurity Mode';
+            } else {
+                if (icon) icon.className = 'fas fa-moon text-blue-400';
+                if (text) text.textContent = 'Dark';
+                if (btn) btn.title = 'Switch to High-Contrast Light Mode';
+            }
+        }
+
+        window.toggleTheme = function() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+        };
+
+        // Initialize Theme immediately
+        applyTheme(localStorage.getItem('idps_theme') || 'dark');
+
         const API_BASE = 'http://localhost:8000';
         let token = sessionStorage.getItem('ids_access_token');
 
