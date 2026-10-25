@@ -1391,3 +1391,142 @@ body {
     color: #ffffff !important;
     border-color: #dc2626 !important;
 }
+
+/* ============================================================
+   REGISTRATION PORTAL & REGISTRATION FORMS
+   LIGHT MODE OVERRIDES
+   ============================================================ */
+[data-theme="light"] .portal-card,
+[data-theme="light"] .reg-form-card,
+[data-theme="light"] #register-form {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .portal-card h1,
+[data-theme="light"] .reg-form-card h1,
+[data-theme="light"] #register-form h1 {
+    color: #2563eb !important;
+}
+
+[data-theme="light"] .portal-card p,
+[data-theme="light"] .reg-form-card p,
+[data-theme="light"] .login-header p {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .role-card {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="light"] .role-card:hover {
+    background: #eff6ff !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15) !important;
+}
+
+[data-theme="light"] .role-card h2 {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .role-card p {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .form-group label {
+    color: #334155 !important;
+}
+
+[data-theme="light"] .form-section-label {
+    border-bottom: 1px solid #e2e8f0 !important;
+    color: #2563eb !important;
+}
+
+[data-theme="light"] .input-wrapper input {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .input-wrapper input:focus {
+    background: #ffffff !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+[data-theme="light"] .top-login-link {
+    background: #eff6ff !important;
+    border: 1px solid #bfdbfe !important;
+    color: #1d4ed8 !important;
+}
+
+[data-theme="light"] .top-login-link:hover {
+    background: #2563eb !important;
+    border-color: #2563eb !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.25) !important;
+}
+
+[data-theme="light"] .forgot-link {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .forgot-link:hover {
+    color: #2563eb !important;
+}
+
+[data-theme="light"] .admin-badge,
+[data-theme="light"] .analyst-badge {
+    background: #eff6ff !important;
+    border: 1px solid #bfdbfe !important;
+    color: #1d4ed8 !important;
+}
+
+[data-theme="light"] #register-form label {
+    color: #334155 !important;
+}
+
+[data-theme="light"] #register-form .border-gray-800 {
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] #register-form a.text-gray-500 {
+    color: #64748b !important;
+}
+
+[data-theme="light"] #register-form a.text-gray-500:hover {
+    color: #2563eb !important;
+}
+
+[data-theme="light"] #register-form .bg-blue-900 {
+    background-color: #eff6ff !important;
+    border-color: #bfdbfe !important;
+}
+
+[data-theme="light"] #register-form #role-icon {
+    color: #2563eb !important;
+}
+
+/* Browser autofill styling for all themes */
+html:not([data-theme="light"]) input:-webkit-autofill,
+html:not([data-theme="light"]) input:-webkit-autofill:hover, 
+html:not([data-theme="light"]) input:-webkit-autofill:focus, 
+html:not([data-theme="light"]) input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #060c18 inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+[data-theme="light"] input:-webkit-autofill,
+[data-theme="light"] input:-webkit-autofill:hover, 
+[data-theme="light"] input:-webkit-autofill:focus, 
+[data-theme="light"] input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #f8fafc inset !important;
+    -webkit-text-fill-color: #0f172a !important;
+    caret-color: #0f172a !important;
+    transition: background-color 5000s ease-in-out 0s;
+}

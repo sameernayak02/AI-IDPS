@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Registration | AI-Powered IDS</title>
-    <link rel="stylesheet" href="css/dashboard.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('idps_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <link rel="stylesheet" href="css/dashboard.css?v=2.9">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .reg-form-container {
@@ -152,6 +158,16 @@
     </style>
 </head>
 <body>
+    <!-- ═══════════════════════════════════
+         SEPARATE THEME TOGGLE (Top-Right Corner)
+    ═══════════════════════════════════ -->
+    <div style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;">
+        <button type="button" onclick="toggleTheme()" id="theme-toggle-btn" class="theme-toggle-corner-btn" title="Switch between Dark and Light Mode">
+            <i id="theme-toggle-icon" class="fas fa-moon text-blue-400"></i>
+            <span id="theme-toggle-text">Dark</span>
+        </button>
+    </div>
+
     <div class="reg-form-container">
         <div class="reg-form-card">
             <a href="index.html" class="top-login-link">
@@ -294,6 +310,31 @@
             }
             input.value = v;
         }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('idps_theme', theme);
+            const icon = document.getElementById('theme-toggle-icon');
+            const text = document.getElementById('theme-toggle-text');
+            const btn  = document.getElementById('theme-toggle-btn');
+            if (theme === 'light') {
+                if (icon) icon.className = 'fas fa-sun text-amber-500';
+                if (text) text.textContent = 'Light';
+                if (btn) btn.title = 'Switch to Dark Cybersecurity Mode';
+            } else {
+                if (icon) icon.className = 'fas fa-moon text-blue-400';
+                if (text) text.textContent = 'Dark';
+                if (btn) btn.title = 'Switch to High-Contrast Light Mode';
+            }
+        }
+
+        window.toggleTheme = function() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+        };
+
+        applyTheme(localStorage.getItem('idps_theme') || 'dark');
     </script>
     <script src="js/register-admin.js"></script>
 </body>
