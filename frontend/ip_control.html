@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Control Center | IDS System</title>
-    <link rel="stylesheet" href="css/dashboard.css?v=2.7">
+    <link rel="stylesheet" href="css/dashboard.css?v=2.8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         (function() {
@@ -20,6 +20,12 @@
             --text-muted: #6b7a99;
             --danger: #ef4444;
             --success: #22c55e;
+        }
+
+        [data-theme="light"] {
+            --glass-border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
         }
 
         .control-container {
@@ -156,6 +162,16 @@
     </style>
 </head>
 <body>
+    <!-- ═══════════════════════════════════
+         SEPARATE THEME TOGGLE (Top-Right Corner)
+    ═══════════════════════════════════ -->
+    <div style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;">
+        <button type="button" onclick="toggleTheme()" id="theme-toggle-btn" class="theme-toggle-corner-btn" title="Switch between Dark and Light Mode">
+            <i id="theme-toggle-icon" class="fas fa-moon text-blue-400"></i>
+            <span id="theme-toggle-text">Dark</span>
+        </button>
+    </div>
+
     <div class="control-container">
         <div class="header-actions">
             <div>
@@ -164,11 +180,7 @@
                 </a>
                 <h1 style="color: var(--text-main); margin-top: 0.5rem;">IP Control Center</h1>
             </div>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <button type="button" onclick="toggleTheme()" id="theme-toggle-btn" class="theme-toggle-corner-btn" style="position: static;" title="Switch between Dark and Light Mode">
-                    <i id="theme-toggle-icon" class="fas fa-moon text-blue-400"></i>
-                    <span id="theme-toggle-text">Dark</span>
-                </button>
+            <div>
                 <button class="action-btn" onclick="init()"><i class="fas fa-sync-alt"></i> Refresh</button>
             </div>
         </div>
