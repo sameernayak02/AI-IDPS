@@ -25,7 +25,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- Custom CSS (includes glassmorphism search bars) -->
-    <link rel="stylesheet" href="css/dashboard.css?v=2.6">
+    <link rel="stylesheet" href="css/dashboard.css?v=2.7">
 
     <style>
         /* Dark map tiles overlay */
@@ -34,12 +34,24 @@
         }
 
         /* Override browser autofill styles for dark theme inputs */
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover, 
-        input:-webkit-autofill:focus, 
-        input:-webkit-autofill:active {
+        html:not([data-theme="light"]) input:-webkit-autofill,
+        html:not([data-theme="light"]) input:-webkit-autofill:hover, 
+        html:not([data-theme="light"]) input:-webkit-autofill:focus, 
+        html:not([data-theme="light"]) input:-webkit-autofill:active {
             -webkit-box-shadow: 0 0 0 1000px #060c18 inset !important;
             -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        /* Override browser autofill styles for light theme inputs */
+        [data-theme="light"] input:-webkit-autofill,
+        [data-theme="light"] input:-webkit-autofill:hover, 
+        [data-theme="light"] input:-webkit-autofill:focus, 
+        [data-theme="light"] input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px #f8fafc inset !important;
+            -webkit-text-fill-color: #0f172a !important;
+            caret-color: #0f172a !important;
             transition: background-color 5000s ease-in-out 0s;
         }
     </style>
@@ -137,14 +149,14 @@
                 <label class="block text-[#6b7a99] mb-2.5 text-xs sm:text-[13px] uppercase tracking-widest font-semibold">Username</label>
                 <div class="search-wrap">
                     <span class="search-icon !text-base !left-4">👤</span>
-                    <input type="text" id="username" class="search-bar !bg-black/20 !border-white/10 !py-3 !pl-11 !text-base" placeholder="Enter username" required>
+                    <input type="text" id="username" class="search-bar !py-3 !pl-11 !text-base" placeholder="Enter username" required>
                 </div>
             </div>
             <div class="mb-8">
                 <label class="block text-[#6b7a99] mb-2.5 text-xs sm:text-[13px] uppercase tracking-widest font-semibold">Password</label>
                 <div class="search-wrap">
                     <span class="search-icon !text-base !left-4">🔑</span>
-                    <input type="password" id="password" class="search-bar !bg-black/20 !border-white/10 !py-3 !pl-11 !text-base" placeholder="Enter password" required>
+                    <input type="password" id="password" class="search-bar !py-3 !pl-11 !text-base" placeholder="Enter password" required>
                 </div>
             </div>
             <div class="flex justify-center">
@@ -647,7 +659,7 @@
     </div>
 
     <!-- Frontend logic -->
-    <script src="js/dashboard.js?v=2.6"></script>
+    <script src="js/dashboard.js?v=2.7"></script>
 </body>
 
 </html>

@@ -1083,10 +1083,42 @@ body {
     color: #334155 !important;
 }
 
-[data-theme="light"] #login-form input {
-    background: #f8fafc !important;
-    border-color: #cbd5e1 !important;
+[data-theme="light"] #login-form input,
+[data-theme="light"] #login-form .search-bar {
+    background-color: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
     color: #0f172a !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] #login-form input::placeholder,
+[data-theme="light"] #login-form .search-bar::placeholder {
+    color: #94a3b8 !important;
+}
+
+[data-theme="light"] #login-form input:focus,
+[data-theme="light"] #login-form .search-bar:focus {
+    background-color: #ffffff !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+[data-theme="light"] #login-form .search-icon {
+    color: #64748b !important;
+}
+
+[data-theme="light"] #login-form .border-gray-800 {
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] input:-webkit-autofill,
+[data-theme="light"] input:-webkit-autofill:hover, 
+[data-theme="light"] input:-webkit-autofill:focus, 
+[data-theme="light"] input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #f8fafc inset !important;
+    -webkit-text-fill-color: #0f172a !important;
+    caret-color: #0f172a !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Light Map Tiles: Revert dark filter for natural, clean map */
