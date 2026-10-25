@@ -960,11 +960,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const row = document.createElement('tr');
             row.className = isAnomaly ? 'row-anomaly' : 'row-normal';
+            const protoClean = (log.proto || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            const protoClass = protoClean ? `proto-${protoClean}` : '';
             row.innerHTML = `
                 <td class="text-gray-400 font-mono" style="font-size:0.75rem">${new Date(typeof log.timestamp === 'number' ? log.timestamp * 1000 : log.timestamp).toLocaleTimeString()}</td>
                 <td class="text-blue-400 font-mono" style="font-size:0.75rem">${escapeHTML(log.source || '—')}</td>
                 <td class="text-gray-400 font-mono" style="font-size:0.72rem">${escapeHTML((log.destination || '—').substring(0,20))}</td>
-                <td><span class="text-xs font-mono bg-gray-800 px-2 py-0.5 rounded">${escapeHTML(log.proto || '—')}</span></td>
+                <td><span class="protocol-pill ${protoClass}">${escapeHTML(log.proto || '—')}</span></td>
                 <td class="text-gray-500 font-mono" style="font-size:0.72rem">${log.length || '—'}</td>
                 <td style="font-size:0.72rem">
                     <span class="text-gray-300">${escapeHTML(country)}</span>

@@ -530,6 +530,46 @@ body {
 .threat-medium { background: rgba(255,165,2,0.2);  color: #ffa502; }
 .threat-low    { background: rgba(46,213,115,0.15);color: #2ed573; }
 
+/* ---------- Protocol badges in table ---------- */
+.protocol-pill {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: rgba(30, 41, 59, 0.9);
+    color: #e2e8f0;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    white-space: nowrap;
+}
+
+.proto-tcp {
+    background: rgba(37, 99, 235, 0.2);
+    color: #60a5fa;
+    border-color: rgba(59, 130, 246, 0.35);
+}
+
+.proto-udp {
+    background: rgba(14, 165, 233, 0.2);
+    color: #38bdf8;
+    border-color: rgba(14, 165, 233, 0.35);
+}
+
+.proto-icmp {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.35);
+}
+
+.proto-arp {
+    background: rgba(168, 85, 247, 0.2);
+    color: #c084fc;
+    border-color: rgba(168, 85, 247, 0.35);
+}
+
 /* ---------- Universal Logout Button & Action Links ---------- */
 .edit-profile-btn {
     background: rgba(255, 255, 255, 0.05);
@@ -984,6 +1024,72 @@ body {
 [data-theme="light"] .ids-table td {
     border-bottom: 1px solid #f1f5f9 !important;
     color: #0f172a !important;
+}
+
+[data-theme="light"] .protocol-pill {
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .proto-tcp {
+    background: #eff6ff !important;
+    color: #1d4ed8 !important;
+    border-color: #bfdbfe !important;
+}
+
+[data-theme="light"] .proto-udp {
+    background: #f0f9ff !important;
+    color: #0284c7 !important;
+    border-color: #bae6fd !important;
+}
+
+[data-theme="light"] .proto-icmp {
+    background: #fffbeb !important;
+    color: #b45309 !important;
+    border-color: #fde68a !important;
+}
+
+[data-theme="light"] .proto-arp {
+    background: #faf5ff !important;
+    color: #7e22ce !important;
+    border-color: #e9d5ff !important;
+}
+
+[data-theme="light"] .bg-gray-800 {
+    background-color: #f1f5f9 !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .threat-low {
+    background: #ecfdf5 !important;
+    color: #059669 !important;
+    border: 1px solid #a7f3d0 !important;
+}
+
+[data-theme="light"] .threat-medium {
+    background: #fffbeb !important;
+    color: #d97706 !important;
+    border: 1px solid #fde68a !important;
+}
+
+[data-theme="light"] .threat-high {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+    border: 1px solid #fecaca !important;
+}
+
+[data-theme="light"] .ids-table .text-blue-400 {
+    color: #2563eb !important;
+}
+
+[data-theme="light"] .ids-table .text-green-400 {
+    color: #16a34a !important;
+}
+
+[data-theme="light"] .ids-table .text-red-400 {
+    color: #dc2626 !important;
 }
 
 [data-theme="light"] .ids-table tbody tr:hover {
