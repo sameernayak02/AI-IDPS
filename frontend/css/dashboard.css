@@ -1524,6 +1524,83 @@ svg.input-icon-key {
     background: #f8fafc !important;
 }
 
+/* Forensic Report Modal Details & Footer in Light Mode */
+[data-theme="light"] #report-modal .report-footer-note,
+[data-theme="light"] #report-modal .text-slate-500 {
+    color: #334155 !important; /* Deep visible slate-700 text */
+    font-weight: 600 !important;
+}
+
+[data-theme="light"] #report-modal button.report-close-btn,
+[data-theme="light"] #report-modal .report-close-btn,
+[data-theme="light"] #report-modal .bg-slate-800 {
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #report-modal button.report-close-btn:hover,
+[data-theme="light"] #report-modal .report-close-btn:hover,
+[data-theme="light"] #report-modal .bg-slate-800:hover {
+    background: #e2e8f0 !important;
+    border-color: #94a3b8 !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] #report-modal .border-white\/10 {
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] #report-modal .border-white\/5 {
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] #report-modal .divide-white\/5 > * {
+    border-color: #e2e8f0 !important;
+}
+
+/* Forensic Evidence Table rows text contrast */
+[data-theme="light"] #report-incident-rows td.text-slate-400 {
+    color: #334155 !important;
+    font-weight: 500 !important;
+}
+
+[data-theme="light"] #report-incident-rows td.text-blue-400 {
+    color: #1d4ed8 !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #report-incident-rows td.text-red-400 {
+    color: #b91c1c !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #report-incident-rows td.text-slate-300 {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #report-incident-rows .text-green-400 {
+    color: #15803d !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #report-incident-rows .text-cyan-400 {
+    color: #0369a1 !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #report-incident-rows .text-amber-400 {
+    color: #b45309 !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] #report-incident-rows td.text-slate-500 {
+    color: #475569 !important;
+    font-weight: 600 !important;
+}
+
 /* ============================================================
    ROLE-BASED DASHBOARDS (Admin, Head Admin, Analyst, IP Control)
    LIGHT MODE OVERRIDES & HIGH CONTRAST TEXT
