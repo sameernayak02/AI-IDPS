@@ -10,7 +10,7 @@
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
     </script>
-    <link rel="stylesheet" href="css/dashboard.css?v=3.2">
+    <link rel="stylesheet" href="css/dashboard.css?v=3.3">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -87,15 +87,15 @@
             <div class="mb-4">
                 <label class="block text-gray-400 mb-2 text-xs uppercase tracking-widest font-semibold">Username</label>
                 <div class="search-wrap">
-                    <span class="search-icon">👤</span>
-                    <input type="text" id="username" class="search-bar" placeholder="Choose a username" required>
+                    <span class="search-icon input-icon-user !text-base !left-4"><i class="fas fa-user"></i></span>
+                    <input type="text" id="username" class="search-bar !py-3 !pl-11 !text-base" placeholder="Choose a username" required>
                 </div>
             </div>
             <div class="mb-6">
                 <label class="block text-gray-400 mb-2 text-xs uppercase tracking-widest font-semibold">Password</label>
                 <div class="search-wrap">
-                    <span class="search-icon">🔑</span>
-                    <input type="password" id="password" class="search-bar" placeholder="Choose a password" required>
+                    <span class="search-icon input-icon-key !text-base !left-4"><i class="fas fa-key"></i></span>
+                    <input type="password" id="password" class="search-bar !py-3 !pl-11 !text-base" placeholder="Choose a password" required>
                 </div>
             </div>
 
