@@ -97,22 +97,37 @@ body {
 }
 
 /* User & Password Input Icons */
-.search-wrap .search-icon.input-icon-user,
-.input-icon-user,
-.search-icon.input-icon-user,
-.search-icon.input-icon-user i {
-    color: #a855f7 !important; /* Cyber violet */
-    z-index: 20 !important;
-    transition: color 0.2s ease, transform 0.2s ease;
+.search-icon-badge {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 30 !important;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.search-wrap .search-icon.input-icon-key,
+.input-icon-svg {
+    display: inline-block;
+    transition: color 0.2s ease, fill 0.2s ease, transform 0.2s ease;
+}
+
+.input-icon-user,
+.input-icon-svg.input-icon-user,
+svg.input-icon-user {
+    color: #a855f7 !important; /* Cyber violet */
+    fill: #a855f7 !important;
+    filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.45));
+}
+
 .input-icon-key,
-.search-icon.input-icon-key,
-.search-icon.input-icon-key i {
+.input-icon-svg.input-icon-key,
+svg.input-icon-key {
     color: #f59e0b !important; /* Cyber amber / gold */
-    z-index: 20 !important;
-    transition: color 0.2s ease, transform 0.2s ease;
+    fill: #f59e0b !important;
+    filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.45));
 }
 
 .search-wrap .search-bar {
@@ -1201,45 +1216,49 @@ body {
 }
 
 /* Light Theme High Contrast Icons for Username & Password */
-[data-theme="light"] #login-form .search-icon.input-icon-user,
-[data-theme="light"] #login-form .input-icon-user,
-[data-theme="light"] #register-form .search-icon.input-icon-user,
-[data-theme="light"] #register-form .input-icon-user,
-[data-theme="light"] .search-icon.input-icon-user,
 [data-theme="light"] .input-icon-user,
-[data-theme="light"] .input-icon-user i {
+[data-theme="light"] .input-icon-svg.input-icon-user,
+[data-theme="light"] svg.input-icon-user,
+[data-theme="light"] #login-form .input-icon-user,
+[data-theme="light"] #register-form .input-icon-user,
+[data-theme="light"] .search-icon.input-icon-user {
     color: #7c3aed !important; /* Deep rich violet - perfectly visible on light bg */
-    z-index: 20 !important;
+    fill: #7c3aed !important;
+    filter: none !important;
 }
 
-[data-theme="light"] #login-form .search-icon.input-icon-key,
-[data-theme="light"] #login-form .input-icon-key,
-[data-theme="light"] #register-form .search-icon.input-icon-key,
-[data-theme="light"] #register-form .input-icon-key,
-[data-theme="light"] .search-icon.input-icon-key,
 [data-theme="light"] .input-icon-key,
-[data-theme="light"] .input-icon-key i {
+[data-theme="light"] .input-icon-svg.input-icon-key,
+[data-theme="light"] svg.input-icon-key,
+[data-theme="light"] #login-form .input-icon-key,
+[data-theme="light"] #register-form .input-icon-key,
+[data-theme="light"] .search-icon.input-icon-key {
     color: #b45309 !important; /* Deep rich warm amber - perfectly visible on light bg */
-    z-index: 20 !important;
+    fill: #b45309 !important;
+    filter: none !important;
 }
 
 /* Dynamic Focus Glow & Color enhancement */
-.search-wrap:focus-within .input-icon-user,
-.search-wrap:focus-within .input-icon-user i {
+.search-wrap:focus-within .input-icon-user {
     color: #c084fc !important;
+    fill: #c084fc !important;
+    transform: scale(1.1);
 }
-[data-theme="light"] .search-wrap:focus-within .input-icon-user,
-[data-theme="light"] .search-wrap:focus-within .input-icon-user i {
+[data-theme="light"] .search-wrap:focus-within .input-icon-user {
     color: #6d28d9 !important;
+    fill: #6d28d9 !important;
+    transform: scale(1.1);
 }
 
-.search-wrap:focus-within .input-icon-key,
-.search-wrap:focus-within .input-icon-key i {
+.search-wrap:focus-within .input-icon-key {
     color: #fbbf24 !important;
+    fill: #fbbf24 !important;
+    transform: scale(1.1);
 }
-[data-theme="light"] .search-wrap:focus-within .input-icon-key,
-[data-theme="light"] .search-wrap:focus-within .input-icon-key i {
+[data-theme="light"] .search-wrap:focus-within .input-icon-key {
     color: #92400e !important;
+    fill: #92400e !important;
+    transform: scale(1.1);
 }
 
 [data-theme="light"] #login-form .border-gray-800,
