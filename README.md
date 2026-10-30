@@ -1,4 +1,4 @@
-# AI-Powered Intrusion Detection and Prevention System (IDPS)
+﻿# AI-Powered Intrusion Detection and Prevention System (IDPS)
 
 An enterprise-grade, real-time cybersecurity solution combining machine learning anomaly detection, live packet sniffing, autonomous firewall mitigation, and multi-protocol network device tracking across both traditional Wi-Fi/LAN networks and mobile hotspots.
 
