@@ -675,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!token) return;
         const deviceList = document.getElementById('device-list');
         if (!deviceList) return;
-        deviceList.innerHTML = '<li class="status-msg">Scanning network range (ARP &amp; Ping discovery)…</li>';
+        deviceList.innerHTML = '<li class="status-msg">Scanning network devices (Wi-Fi, Mobile Hotspot, mDNS &amp; NetBIOS)…</li>';
 
         try {
             const response = await fetch(`${API_BASE}/api/scan-network`, {
@@ -685,26 +685,30 @@ document.addEventListener('DOMContentLoaded', () => {
             deviceList.innerHTML = '';
 
             if (!data.connected_devices || data.connected_devices.length === 0) {
-                deviceList.innerHTML = '<li>No devices detected on LAN.</li>';
+                deviceList.innerHTML = '<li>No devices detected on local network.</li>';
                 return;
             }
 
             data.connected_devices.forEach(device => {
                 const item = document.createElement('li');
                 const isHost = device.is_host || (device.name && device.name.includes('(This PC)'));
+                const isGateway = device.is_gateway || (device.name && (device.name.includes('Hotspot Host') || device.name.includes('Gateway')));
                 const hostBadge = isHost 
                     ? ` <span class="px-2 py-0.5 text-xs bg-blue-500/20 text-blue-300 font-bold rounded border border-blue-500/30 uppercase tracking-wider ml-1">THIS PC</span>`
+                    : '';
+                const gatewayBadge = (!isHost && isGateway)
+                    ? ` <span class="px-2 py-0.5 text-xs bg-emerald-500/20 text-emerald-300 font-bold rounded border border-emerald-500/30 uppercase tracking-wider ml-1">HOTSPOT / GATEWAY</span>`
                     : '';
                 const cleanName = device.name ? device.name.replace(/\s*\(This PC\)/i, '') : '';
                 const nameDisplay = cleanName && cleanName !== 'Unknown Device' 
                     ? ` — <span class="text-blue-400 font-semibold">${escapeHTML(cleanName)}</span>` 
                     : '';
-                item.innerHTML = `<strong>${device.ip}</strong>${nameDisplay}${hostBadge} &nbsp;|&nbsp; MAC: <span>${device.mac}</span>`;
+                item.innerHTML = `<strong>${device.ip}</strong>${nameDisplay}${hostBadge}${gatewayBadge} &nbsp;|&nbsp; MAC: <span>${device.mac || 'N/A'}</span>`;
                 deviceList.appendChild(item);
             });
         } catch (err) {
             console.error('[Network Scan Error]', err);
-            deviceList.innerHTML = '<li style="color:#ff4757">ARP scan failed — check backend &amp; admin rights.</li>';
+            deviceList.innerHTML = '<li style="color:#ff4757">Network scan failed — check backend &amp; admin rights.</li>';
         }
     };
     // Removed periodic scanning interval as per user request to only scan on manual click after load.
@@ -1373,4 +1377,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auto-show dashboard if already logged in (placed at the end to ensure all functions are defined)
     if (token) showDashboard();
 
-}); // DOMContentLoaded
+}); // DOMContentLoaded

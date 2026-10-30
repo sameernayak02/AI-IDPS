@@ -368,19 +368,54 @@ COMMON_OUIS = {
     "14:20:5e": "Apple", "14:5a:05": "Apple", "14:8f:c6": "Apple", "14:99:e2": "Apple",
     "14:bd:61": "Apple", "18:20:32": "Apple", "18:af:61": "Apple", "18:e7:f4": "Apple",
     "1c:1a:df": "Apple", "1c:36:bb": "Apple", "1c:5c:f2": "Apple", "1c:ab:a7": "Apple",
-    # Google
+    "f0:18:98": "Apple", "f4:37:b7": "Apple", "bc:d1:1f": "Apple", "a8:66:7f": "Apple",
+    "64:b0:a6": "Apple", "38:f9:d3": "Apple", "88:66:5a": "Apple", "a4:83:e7": "Apple",
+    "ac:bc:32": "Apple", "b0:34:95": "Apple", "d8:bb:2c": "Apple", "e0:b9:ba": "Apple",
+    # Google (Pixel / Chromecast / Nest)
     "3c:5a:37": "Google", "f4:f5:d8": "Google", "da:a1:19": "Google", "00:1a:11": "Google",
+    "20:df:b9": "Google", "54:60:09": "Google", "d8:6c:63": "Google", "a4:77:33": "Google",
     # Samsung
     "00:07:ab": "Samsung", "00:12:47": "Samsung", "1c:5a:3e": "Samsung", "50:50:a4": "Samsung",
     "f4:09:d4": "Samsung", "f8:cf:c5": "Samsung", "a8:06:00": "Samsung", "a8:7b:39": "Samsung",
     "ac:5f:3e": "Samsung", "b4:07:f9": "Samsung", "b8:5d:0a": "Samsung", "bc:72:b1": "Samsung",
     "c8:19:f7": "Samsung", "c8:cb:b8": "Samsung", "e4:12:18": "Samsung", "e4:e0:a6": "Samsung",
+    "5c:c6:d0": "Samsung", "78:47:1d": "Samsung", "34:c9:f0": "Samsung", "94:65:2d": "Samsung",
+    "08:3a:88": "Samsung", "44:78:3e": "Samsung", "70:2c:1f": "Samsung", "84:25:19": "Samsung",
+    # OnePlus / Oppo / Realme
+    "98:09:cf": "OnePlus", "38:a4:ed": "OnePlus", "a0:86:c6": "OnePlus", "70:bf:92": "OnePlus",
+    "b0:e5:ed": "OnePlus", "c0:97:27": "OnePlus", "f8:a9:d0": "OnePlus",
+    "70:8a:09": "Oppo", "6c:c7:ec": "Oppo", "a4:44:d1": "Oppo", "48:42:33": "Oppo",
+    "dc:8b:28": "Oppo", "e8:bb:a8": "Oppo", "90:b6:86": "Realme", "a4:c3:f0": "Realme",
+    # Vivo / iQOO
+    "50:5d:ac": "Vivo", "f4:6b:8c": "Vivo", "40:4e:36": "Vivo", "c4:86:e9": "Vivo",
+    "18:4f:32": "Vivo", "2c:5b:f7": "Vivo",
+    # Xiaomi / Redmi / POCO
+    "18:59:36": "Xiaomi", "28:6c:07": "Xiaomi", "34:80:b3": "Xiaomi", "50:ec:50": "Xiaomi",
+    "64:09:80": "Xiaomi", "7c:1d:d9": "Xiaomi", "98:fa:e3": "Xiaomi", "ac:f7:f3": "Xiaomi",
+    "f8:a4:5f": "Xiaomi", "68:df:dd": "Xiaomi", "58:44:98": "Xiaomi", "74:23:44": "Xiaomi",
+    # Motorola
+    "00:0a:28": "Motorola", "00:0c:e5": "Motorola", "00:11:1a": "Motorola", "00:15:a8": "Motorola",
+    "00:1a:66": "Motorola", "00:24:92": "Motorola", "40:78:6a": "Motorola", "80:6c:1b": "Motorola",
+    # Huawei
+    "00:18:82": "Huawei", "00:22:a1": "Huawei", "24:df:6a": "Huawei", "28:31:52": "Huawei",
+    "28:5f:db": "Huawei", "28:6e:d4": "Huawei", "30:87:30": "Huawei", "34:cd:6d": "Huawei",
     # Intel / PC Wi-Fi
     "00:13:e8": "Intel", "00:15:00": "Intel", "00:16:ea": "Intel", "00:1c:bf": "Intel",
     "00:1d:e0": "Intel", "00:1e:64": "Intel", "00:21:5c": "Intel", "00:21:6a": "Intel",
     "00:22:fa": "Intel", "00:23:14": "Intel", "00:24:d6": "Intel", "00:24:d7": "Intel",
     "00:27:0e": "Intel", "00:27:10": "Intel", "04:0c:a5": "Intel", "04:ea:56": "Intel",
     "d4:ab:61": "Intel", "a8:71:16": "Lenovo", "aa:da:ca": "Lenovo", "70:5a:ac": "Lenovo",
+    # Asus / Dell / HP
+    "00:1b:fc": "Asus", "04:d9:f5": "Asus", "10:7b:44": "Asus", "14:dd:a9": "Dell",
+    "18:66:da": "Dell", "24:b6:fd": "Dell", "00:1e:0b": "HP", "3c:d9:2b": "HP", "28:92:4a": "HP",
+    # Microsoft / Amazon / Sony / LG
+    "00:15:5d": "Microsoft", "dc:98:40": "Microsoft", "44:16:22": "Amazon", "fc:a6:67": "Amazon",
+    "00:04:1f": "Sony", "00:13:15": "Sony", "00:19:c5": "Sony", "00:1c:62": "LG", "00:1e:75": "LG",
+    # Realtek
+    "00:e0:4c": "Realtek", "52:54:00": "Realtek", "00:13:3b": "Realtek",
+    # Jio / RJIL
+    "54:2a:a2": "Jio", "00:0e:c6": "Jio", "c8:d7:19": "Jio", "fc:b0:de": "Jio",
+    "00:54:2a": "Jio", "9c:c9:eb": "Jio", "ac:4b:c8": "Jio",
     # TP-Link
     "50:3e:aa": "TP-Link", "98:de:d0": "TP-Link", "e8:94:f6": "TP-Link", "00:14:78": "TP-Link",
     "00:1d:0f": "TP-Link", "00:21:27": "TP-Link", "00:23:cd": "TP-Link", "0c:47:3d": "TP-Link",
@@ -391,18 +426,7 @@ COMMON_OUIS = {
     "00:22:3f": "Netgear", "00:24:b2": "Netgear", "00:26:f2": "Netgear", "04:a1:51": "Netgear",
     # Cisco
     "00:00:0c": "Cisco", "00:01:42": "Cisco", "00:01:43": "Cisco", "00:01:64": "Cisco",
-    "00:01:96": "Cisco", "00:02:4a": "Cisco", "00:02:b9": "Cisco", "00:02:fc": "Cisco",
-    # Xiaomi
-    "18:59:36": "Xiaomi", "28:6c:07": "Xiaomi", "34:80:b3": "Xiaomi", "50:ec:50": "Xiaomi",
-    "64:09:80": "Xiaomi", "7c:1d:d9": "Xiaomi", "98:fa:e3": "Xiaomi", "ac:f7:f3": "Xiaomi",
-    # Huawei
-    "00:18:82": "Huawei", "00:22:a1": "Huawei", "24:df:6a": "Huawei", "28:31:52": "Huawei",
-    "28:5f:db": "Huawei", "28:6e:d4": "Huawei", "30:87:30": "Huawei", "34:cd:6d": "Huawei",
-    # Realtek
-    "00:e0:4c": "Realtek", "52:54:00": "Realtek", "00:13:3b": "Realtek",
-    # Jio / RJIL
-    "54:2a:a2": "Jio", "00:0e:c6": "Jio", "c8:d7:19": "Jio", "fc:b0:de": "Jio",
-    "00:54:2a": "Jio", "9c:c9:eb": "Jio", "ac:4b:c8": "Jio"
+    "00:01:96": "Cisco", "00:02:4a": "Cisco", "00:02:b9": "Cisco", "00:02:fc": "Cisco"
 }
 
 OUI_CACHE_FILE = os.path.join(os.path.dirname(__file__), "mac_vendors_cache.json")
@@ -482,12 +506,142 @@ def _parse_system_arp():
         print(f"[ARP Table] Error: {e}")
     return devices
 
-def _resolve_mac_vendor(mac):
+def _is_randomized_mac(mac: str) -> bool:
+    """Checks whether the MAC address has the IEEE 802 Locally Administered Address (LAA) bit set (private/randomized)."""
+    try:
+        clean = mac.lower().replace("-", ":")
+        first_byte = int(clean.split(":")[0], 16)
+        return bool(first_byte & 2)
+    except Exception:
+        return False
+
+def _get_default_gateway():
+    """Detects default gateway IP (which is the mobile phone hosting the hotspot when tethered)."""
+    try:
+        if platform.system().lower() == "windows":
+            proc = subprocess.run(["route", "print", "0.0.0.0"], capture_output=True, text=True, timeout=2)
+            for line in proc.stdout.splitlines():
+                parts = line.strip().split()
+                if len(parts) >= 5 and parts[0] == "0.0.0.0" and parts[1] == "0.0.0.0":
+                    return parts[2]
+        else:
+            proc = subprocess.run(["ip", "route", "show", "default"], capture_output=True, text=True, timeout=2)
+            parts = proc.stdout.strip().split()
+            if "via" in parts:
+                return parts[parts.index("via") + 1]
+    except Exception:
+        pass
+    return None
+
+def _query_netbios_name(ip: str, timeout: float = 0.5):
+    """Queries Windows/Samba devices for their NetBIOS Computer Name via UDP 137 (unicast probe)."""
+    try:
+        tr_id = b"\x13\x37"
+        flags = b"\x00\x00"
+        qdcount = b"\x00\x01"
+        ancount = b"\x00\x00"
+        nscount = b"\x00\x00"
+        arcount = b"\x00\x00"
+        query_name = b"\x20CK" + (b"A" * 30) + b"\x00"
+        qtype = b"\x00\x21"
+        qclass = b"\x00\x01"
+        payload = tr_id + flags + qdcount + ancount + nscount + arcount + query_name + qtype + qclass
+
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.settimeout(timeout)
+        s.sendto(payload, (ip, 137))
+        data, _ = s.recvfrom(1024)
+        s.close()
+
+        idx = data.find(b"\x00\x21\x00\x01")
+        if idx != -1 and idx + 10 < len(data):
+            num_names = data[idx + 10]
+            names_start = idx + 11
+            for i in range(min(num_names, 10)):
+                offset = names_start + (i * 18)
+                if offset + 18 <= len(data):
+                    name_bytes = data[offset:offset+15]
+                    name_type = data[offset+15]
+                    flags_int = int.from_bytes(data[offset+16:offset+18], "big")
+                    is_group = bool(flags_int & 0x8000)
+                    if not is_group and name_type in (0x00, 0x20):
+                        clean_name = name_bytes.decode("latin-1", errors="ignore").strip()
+                        if clean_name and clean_name != "IS~":
+                            return clean_name
+    except Exception:
+        pass
+    return None
+
+def _query_mdns_name(ip: str, timeout: float = 0.5):
+    """Queries Apple (iPhone/Mac), Linux/Avahi, and Windows devices for mDNS hostname via UDP 5353."""
+    try:
+        parts = ip.split(".")
+        rev_ip = ".".join(reversed(parts)) + ".in-addr.arpa"
+        encoded = b""
+        for label in rev_ip.split("."):
+            b = label.encode("ascii")
+            encoded += bytes([len(b)]) + b
+        encoded += b"\x00"
+        
+        header = b"\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00"
+        qtype = b"\x00\x0c"
+        qclass = b"\x80\x01"
+        pkt = header + encoded + qtype + qclass
+
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.settimeout(timeout)
+        sock.sendto(pkt, (ip, 5353))
+        data, _ = sock.recvfrom(2048)
+        sock.close()
+        
+        idx = data.find(b".local")
+        if idx != -1:
+            start = max(0, idx - 40)
+            sub = data[start:idx]
+            cleaned = "".join(chr(c) for c in sub if 32 <= c <= 126 or c in (45, 95))
+            tokens = re.findall(r"[a-zA-Z0-9_\-]+", cleaned)
+            if tokens:
+                return tokens[-1]
+    except Exception:
+        pass
+    return None
+
+def _probe_device_type(ip: str, timeout: float = 0.25):
+    """Probes characteristic service ports to fingerprint OS and device type."""
+    signatures = [
+        (62078, "Apple iOS Device"),
+        (8008, "Android / Google Device"),
+        (8009, "Android / Google Device"),
+        (5555, "Android Device (ADB)"),
+        (5357, "Windows PC (WSD)"),
+        (445, "Windows PC (SMB)"),
+        (135, "Windows PC (RPC)"),
+        (22, "Linux / SSH Device"),
+        (80, "Web / Router Device"),
+        (443, "HTTPS Server Device")
+    ]
+    for port, label in signatures:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(timeout)
+        try:
+            if s.connect_ex((ip, port)) == 0:
+                s.close()
+                return label
+        except Exception:
+            pass
+        finally:
+            s.close()
+    return None
+
+def _resolve_mac_vendor(mac: str) -> str:
     if not mac:
         return "Unknown Device"
     
     mac_clean = mac.lower().replace("-", ":")
-    oui = ":".join(mac_clean.split(":")[:3])
+    parts = mac_clean.split(":")
+    if len(parts) < 3:
+        return "Unknown Device"
+    oui = ":".join(parts[:3])
     
     # 1. Check local pre-defined OUIs
     if oui in COMMON_OUIS:
@@ -498,59 +652,131 @@ def _resolve_mac_vendor(mac):
         if oui in _OUI_CACHE:
             return _OUI_CACHE[oui]
             
-    # 3. Public API fallback (only once per OUI, with strict 1s timeout)
-    try:
-        resp = requests.get(f"https://api.macvendors.com/{mac}", timeout=1)
-        if resp.status_code == 200:
-            vendor = resp.text.strip()
-            for suffix in [" electronics", " technology", " co., ltd.", " co.,ltd.", " inc.", " corporation"]:
-                if vendor.lower().endswith(suffix):
-                    vendor = vendor[:-len(suffix)]
-            vendor = vendor.strip()
+    # 3. Check if randomized MAC - skip external API request
+    if _is_randomized_mac(mac_clean):
+        return "Private MAC Device"
+
+    # 4. Public API fallback (strict 1.2s timeout)
+    for url in [f"https://api.macvendors.com/{mac_clean}", f"https://macvendors.co/api/{mac_clean}"]:
+        try:
+            resp = requests.get(url, timeout=1.2)
+            if resp.status_code == 200:
+                text = resp.text.strip()
+                if "{" in text:
+                    try:
+                        v = resp.json().get("result", {}).get("company", "")
+                        if v: text = v
+                    except Exception:
+                        pass
+                if text and "<!DOCTYPE" not in text and "{" not in text:
+                    for suffix in [" electronics", " technology", " co., ltd.", " co.,ltd.", " inc.", " corporation", " mobile"]:
+                        if text.lower().endswith(suffix):
+                            text = text[:-len(suffix)]
+                    text = text.strip()
+                    if text:
+                        with _OUI_CACHE_LOCK:
+                            _OUI_CACHE[oui] = text
+                            _save_oui_cache()
+                        return text
+        except Exception:
+            continue
             
-            with _OUI_CACHE_LOCK:
-                _OUI_CACHE[oui] = vendor
-                _save_oui_cache()
-            return vendor
-    except Exception:
-        pass
-        
     return "Unknown Device"
 
-def _resolve_ip_name(ip):
+def _resolve_ip_name(ip: str) -> str:
     local_ip = get_local_ip()
     if ip == local_ip:
         return f"{socket.gethostname()} (This PC)"
     try:
         name = socket.gethostbyaddr(ip)[0]
-        # Clean up common local network domain suffixes
         for suffix in ['.local.html', '.lan', '.local', '.home', '.localdomain', '.gateway']:
             if name.lower().endswith(suffix):
                 name = name[:-len(suffix)]
+                break
         if name == ip or re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', name):
             return "Unknown Device"
         return name
     except Exception:
         return "Unknown Device"
 
-def _resolve_device_profile(device):
+def _resolve_device_profile(device: dict) -> dict:
     if device.get('is_host'):
         return device
 
-    # Try resolving hostname via DNS
-    name = _resolve_ip_name(device['ip'])
-    
-    # Fallback to MAC vendor if DNS fails
-    if name == "Unknown Device":
-        vendor = _resolve_mac_vendor(device['mac'])
-        if vendor != "Unknown Device":
-            name = f"{vendor} Device"
-            
-    device['name'] = name
+    ip = device.get('ip', '')
+    mac = device.get('mac', '')
+    is_gateway = device.get('is_gateway', False)
+
+    # 1. Gateway / Hotspot Host Identification
+    is_hotspot_gw = is_gateway or (ip.endswith('.1') and (ip.startswith('192.168.43.') or ip.startswith('172.20.10.') or ip.startswith('192.168.137.')))
+    if is_hotspot_gw:
+        vendor = _resolve_mac_vendor(mac) if mac else ""
+        if vendor and vendor not in ("Unknown Device", "Private MAC Device"):
+            device['name'] = f"{vendor} Phone (Hotspot Host)"
+            return device
+        if ip.startswith('192.168.43.'):
+            device['name'] = "Android Hotspot Host (Phone)"
+            return device
+        elif ip.startswith('172.20.10.'):
+            device['name'] = "iPhone Personal Hotspot (Host)"
+            return device
+        elif ip.startswith('192.168.137.'):
+            device['name'] = "Windows Mobile Hotspot Host"
+            return device
+        else:
+            device['name'] = "Hotspot Gateway / Host Device"
+            return device
+
+    # 2. Try Standard DNS reverse lookup (works on Wi-Fi / LAN routers)
+    name = _resolve_ip_name(ip)
+    if name != "Unknown Device":
+        device['name'] = name
+        return device
+
+    # 3. Try Unicast mDNS probe (Apple iPhones, iPads, Macs, Linux/Avahi, Windows mDNS)
+    mdns_name = _query_mdns_name(ip)
+    if mdns_name:
+        device['name'] = mdns_name
+        return device
+
+    # 4. Try Unicast NetBIOS probe (Windows PCs, laptops, Samba servers)
+    netbios_name = _query_netbios_name(ip)
+    if netbios_name:
+        device['name'] = netbios_name
+        return device
+
+    # 5. Fast Port Fingerprint (Apple iOS, Android Cast/ADB, Windows PC, Linux)
+    probed_type = _probe_device_type(ip)
+
+    # 6. Check MAC address & OUI vendor
+    vendor = _resolve_mac_vendor(mac) if mac else ""
+    if vendor and vendor not in ("Unknown Device", "Private MAC Device"):
+        if probed_type:
+            device['name'] = f"{vendor} ({probed_type})"
+        else:
+            device['name'] = f"{vendor} Device"
+        return device
+
+    # 7. Check if device is using a Randomized / Private MAC address (Android 10+, iOS 14+, Win10/11)
+    if mac and _is_randomized_mac(mac):
+        if probed_type:
+            device['name'] = f"{probed_type} (Private MAC)"
+        else:
+            device['name'] = "Mobile Device (Private MAC)"
+        return device
+
+    # 8. If port probe found a device type
+    if probed_type:
+        device['name'] = probed_type
+        return device
+
+    # 9. Fallback: recognizable device label based on last octet
+    octets = ip.split('.')
+    device['name'] = f"Connected Device ({octets[-1]})"
     return device
 
 def scan_network(network_range=None):
-    """Scans local network for connected devices using ARP, system ARP table, ping sweep, and local host discovery."""
+    """Scans local network for connected devices using ARP, system ARP table, ping sweep, and multi-protocol discovery."""
     local_ip = get_local_ip()
     if not network_range:
         if local_ip == "127.0.0.1":
@@ -586,7 +812,20 @@ def scan_network(network_range=None):
             if ip not in devices_dict:
                 devices_dict[ip] = {'ip': ip, 'mac': mac}
 
-    # 4. Host Device self-inclusion
+    # 4. Gateway / Hotspot Host Inclusion
+    gw_ip = _get_default_gateway()
+    if gw_ip and gw_ip.startswith(subnet_prefix + "."):
+        if gw_ip not in devices_dict:
+            gw_mac = arp_devs.get(gw_ip, "")
+            devices_dict[gw_ip] = {'ip': gw_ip, 'mac': gw_mac, 'is_gateway': True}
+        else:
+            devices_dict[gw_ip]['is_gateway'] = True
+    elif not gw_ip:
+        cand_gw = subnet_prefix + ".1"
+        if cand_gw in devices_dict:
+            devices_dict[cand_gw]['is_gateway'] = True
+
+    # 5. Host Device self-inclusion
     if local_ip != "127.0.0.1" and local_ip.startswith(subnet_prefix + "."):
         host_mac = _get_local_mac(local_ip)
         host_hostname = socket.gethostname()
